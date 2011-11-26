@@ -2,9 +2,17 @@
 <head>
   <title>player test</title>
   <style>
+    #player-container {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+    }
+
     #controls {
       position: absolute;
       z-index : 3;
+      left: 280px;
+      top : 270px;
     }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -32,7 +40,7 @@
       var waveheight = 140;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/28997512.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        url      : 'http://api.soundcloud.com/tracks/28997612.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
           soundManager.onready(function() {
@@ -41,6 +49,7 @@
               url: o.stream_url + '?client_id=bc73a3deaf438619d689a1100a066ce1',
               autoLoad: true,
               autoPlay: false,
+              stream : true,
               onload: function() {
               },
               onplay : function() {
@@ -59,7 +68,6 @@
               whileplaying : function() {
                 updatePercent((this.position/o.duration)*100);
               },
-
               volume: 50
             });
 
@@ -137,7 +145,7 @@
           pctx.save();
             pctx.beginPath();
             pctx.translate(center, center);
-            pctx.arc(0,0, radius/1.098, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
             pctx.fillStyle = "#920B0D";
@@ -163,12 +171,13 @@
   </script>
 </head>
 <body style="background: #000">
-
-  <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
-  <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
-  <div id="controls">
-    <a href="#" class="play"><img src="img/play.png"/></a>
-    <a href="#" class="pause"><img src="img/pause.png" /></a>
+  <div id="player-container">
+    <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
+    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
+    <div id="controls">
+      <a href="#" class="play"><img src="img/play.png"/></a>
+      <a href="#" class="pause"><img src="img/pause.png" /></a>
+    </div>
   </div>
 </body>
 </html>
