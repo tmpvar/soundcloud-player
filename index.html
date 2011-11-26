@@ -1,0 +1,109 @@
+<html>
+<head>
+  <title>player test</title>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      var w = 600;
+      var h = 600;
+      var parts = 600;
+      var radius = 320;
+      var canvas = $('#player')[0];
+      var progress = $('#progress')[0];
+      canvas.width = w;
+      canvas.height = h;
+      progress.width = w;
+      progress.height = h;
+      var center = w/2;
+      var ctx = canvas.getContext('2d');
+      var pctx = progress.getContext('2d');
+      var waveheight = 140;
+
+      $.ajax({
+        url      : 'http://api.soundcloud.com/tracks/13158665.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        dataType : 'json',
+        success  : function(o) {
+
+          var waveform = new Image();
+          waveform.onload = function() {
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, w, h);
+            ctx.translate(center, center);
+
+            ctx.fillStyle = "black";
+            ctx.globalCompositeOperation = 'destination-in';
+            var width = waveform.width/parts;
+            for (var i=0; i<parts; i++) {
+              ctx.save();
+              ctx.rotate(i);
+              ctx.translate(0, -radius/1.1);
+              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width+1, waveheight*1.2);
+              ctx.restore();
+            }
+
+            ctx.globalCompositeOperation = 'source-out';
+            ctx.beginPath();
+            ctx.arc(0,0, (radius), 0, Math.PI*2, true);
+            ctx.closePath();
+            ctx.fillStyle = "black";
+            ctx.fill();
+          };
+          waveform.src = o.waveform_url;
+        }
+      });
+
+      function updatePercent(percent) {
+        pctx.save();
+          pctx.beginPath();
+          pctx.arc(center, center, (radius/1.1), 0, Math.PI*2, true);
+          pctx.closePath();
+          pctx.fillStyle = "white";
+          pctx.fill();
+
+          pctx.save();
+            pctx.beginPath();
+            pctx.translate(center, center);
+            pctx.arc(0,0, radius/1.098, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.lineTo(0, 0);
+            pctx.closePath();
+            pctx.fillStyle = "#920B0D";
+            pctx.fill();
+
+          pctx.restore();
+
+          pctx.beginPath();
+          pctx.arc(center,center, (radius/1.5), 0, Math.PI*2, true);
+          pctx.closePath();
+          pctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+          pctx.fill();
+
+          pctx.beginPath();
+          pctx.arc(center,center, (radius/2), 0, Math.PI*2, true);
+          pctx.closePath();
+          pctx.fillStyle = "black";
+          pctx.fill();
+        pctx.restore();
+      }
+      var percent = 0;
+      updatePercent(percent)
+      setTimeout(function update() {
+        percent+=0.1;
+        if (percent > 100) {
+          percent = 0;
+        }
+        updatePercent(percent);
+        setTimeout(update, 10);
+      }, 10);
+
+    });
+  </script>
+</head>
+<body style="background: #000">
+
+  <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
+  <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
+
+</body>
+</html>
