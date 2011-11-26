@@ -1,6 +1,12 @@
 <html>
 <head>
   <title>player test</title>
+  <style>
+    #controls {
+      position: absolute;
+      z-index : 3;
+    }
+  </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2.js"></script>
   <script type="text/javascript">
@@ -12,7 +18,7 @@
     $(function() {
       var w = 600;
       var h = 600;
-      var parts = 600;
+      var parts = 360;
       var radius = 320;
       var canvas = $('#player')[0];
       var progress = $('#progress')[0];
@@ -26,21 +32,68 @@
       var waveheight = 140;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/13158666.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        url      : 'http://api.soundcloud.com/tracks/28997512.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
-
           soundManager.onready(function() {
-            soundManager.createSound({
+            var soundObject = window.sound = soundManager.createSound({
               id: 'mySound',
               url: o.stream_url + '?client_id=bc73a3deaf438619d689a1100a066ce1',
               autoLoad: true,
-              autoPlay: true,
+              autoPlay: false,
               onload: function() {
-                alert('The sound '+this.sID+' loaded!');
               },
+              onplay : function() {
+                var that = this;
+                $('#player').bind('click', function(e) {
+                  var calculatedRadians = -Math.atan2(e.clientY - center, e.clientX - center);
+
+                  var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
+
+                  var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
+                  var percent = (360 - correctedDegrees)/360;
+                  console.log(o.duration, percent, o.duration*percent);
+                  that.setPosition(parseInt(o.duration*percent, 10));
+                });
+              },
+              whileplaying : function() {
+                updatePercent((this.position/o.duration)*100);
+              },
+
               volume: 50
             });
+
+
+            $('#controls').show();
+            $('#controls .play').show();
+            var played = false;
+            var play = function() {
+              $('#controls .play').hide();
+              $('#controls .pause').show();
+              if (!played) {
+                soundObject.play();
+                played = true;
+              } else {
+                soundObject.resume();
+              }
+              return false;
+            };
+
+            var pause = function () {
+              $('#controls .play').show();
+              $('#controls .pause').hide();
+
+              if (played) {
+                soundObject.pause();
+              }
+              return false;
+            };
+
+            $('#controls .pause').bind('click', pause);
+            $('#controls .play').bind('click', play);
+
+            pause();
+
           });
 
           var waveform = new Image();
@@ -53,11 +106,12 @@
             ctx.fillStyle = "black";
             ctx.globalCompositeOperation = 'destination-in';
             var width = waveform.width/parts;
+
             for (var i=0; i<parts; i++) {
               ctx.save();
-              ctx.rotate(i);
+              ctx.rotate(i * 360/parts * Math.PI/180);
               ctx.translate(0, -radius/1.1);
-              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width+1, waveheight*1.2);
+              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width, waveheight);
               ctx.restore();
             }
 
@@ -104,17 +158,7 @@
           pctx.fill();
         pctx.restore();
       }
-      var percent = 0;
-      updatePercent(percent)
-      setTimeout(function update() {
-        percent+=0.1;
-        if (percent > 100) {
-          percent = 0;
-        }
-        updatePercent(percent);
-        setTimeout(update, 10);
-      }, 10);
-
+      updatePercent(0);
     });
   </script>
 </head>
@@ -122,6 +166,9 @@
 
   <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
   <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
-
+  <div id="controls">
+    <a href="#" class="play"><img src="img/play.png"/></a>
+    <a href="#" class="pause"><img src="img/pause.png" /></a>
+  </div>
 </body>
 </html>
