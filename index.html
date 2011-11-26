@@ -2,7 +2,12 @@
 <head>
   <title>player test</title>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-
+  <script type="text/javascript" src="/sm2/soundmanager2.js"></script>
+  <script type="text/javascript">
+    soundManager.url = '/sm2/swf/';
+    soundManager.flashVersion = 9;
+    soundManager.useFlashBlock = false;
+  </script>
   <script type="text/javascript">
     $(function() {
       var w = 600;
@@ -21,9 +26,22 @@
       var waveheight = 140;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/13158665.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        url      : 'http://api.soundcloud.com/tracks/13158666.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
+
+          soundManager.onready(function() {
+            soundManager.createSound({
+              id: 'mySound',
+              url: o.stream_url + '?client_id=bc73a3deaf438619d689a1100a066ce1',
+              autoLoad: true,
+              autoPlay: true,
+              onload: function() {
+                alert('The sound '+this.sID+' loaded!');
+              },
+              volume: 50
+            });
+          });
 
           var waveform = new Image();
           waveform.onload = function() {
