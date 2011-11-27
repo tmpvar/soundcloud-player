@@ -17,7 +17,18 @@
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2.js"></script>
-  <script type="text/javascript">
+</head>
+<body style="background: #ababab">
+  <div id="player-container">
+    <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
+    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
+    <div id="controls">
+      <img class="play" src="img/play_balanced.png"/>
+      <img class="pause" src="img/pause.png" />
+    </div>
+  </div>
+
+    <script type="text/javascript">
     soundManager.url = '/sm2/swf/';
     soundManager.flashVersion = 9;
     soundManager.useFlashBlock = false;
@@ -26,22 +37,12 @@
     $(function() {
       var w = 1000;
       var h = w;
-      var offset=w*0.2;
+      var offset=w*0.1;
       var center = w/2;
       $('#player-container').css({
         width:w,
         height:h
       });
-   //     $('#controls').css({
-   //       left:w/2,
-   //       top:h/2
-   //     });
-//$('img.play').css('top', $('canvas:first').height()/2 - $('img.play').height()/2)
-//$('img.play').css('left', $('canvas:first').width()/2 - $('img.play').width()/2)
-//$('img.pause').css('top', $('canvas:first').height()/2 - $('img.pause').height()/2)
-//$('img.pause').css('left', $('canvas:first').width()/2 - $('img.pause').width()/2)
-
-
 
       var parts = 360;
       var canvas = $('#player')[0];
@@ -71,7 +72,7 @@
               },
               onplay : function() {
                 var that = this;
-                $('#player').bind('click', function(e) {
+                var scrub = function(e) {
                   var calculatedRadians = -Math.atan2(e.clientY - center, e.clientX - center);
 
                   var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
@@ -80,6 +81,14 @@
                   var percent = (360 - correctedDegrees)/360;
                   console.log(o.duration, percent, o.duration*percent);
                   that.setPosition(parseInt(o.duration*percent, 10));
+                };
+                $('#player').bind('mousedown', function(e) {
+                  scrub(e);
+                  $('#player').bind('mousemove', scrub);
+                });
+
+                $('#player').bind('mouseup', function() {
+                  $('#player').unbind('mousemove', scrub);
                 });
               },
               whileplaying : function() {
@@ -185,27 +194,18 @@
       }
       updatePercent(0);
 
-            $('#controls .play').css({
-        //width : offset,
+      $('#controls .play').css({ width : offset, height : offset});
+      $('#controls .play').css({
         left  : center - $('#controls .play').width()/2,
         top   : center - $('#controls .play').height()/2
       });
+       $('#controls .pause').css({ width : offset , height: offset});
       $('#controls .pause').css({
-        //width : offset,
         left  : center - $('#controls .pause').width()/2,
         top   : center - $('#controls .pause').height()/2
       });
     });
   </script>
-</head>
-<body style="background: #ababab">
-  <div id="player-container">
-    <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
-    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
-    <div id="controls">
-      <img class="play" src="img/play_balanced.png"/>
-      <img class="pause" src="img/pause.png" />
-    </div>
-  </div>
+
 </body>
 </html>
