@@ -4,15 +4,15 @@
   <style>
     #player-container {
       position: absolute;
-      width: 600px;
-      height: 600px;
+      width: 1000px;
+      height: 1000px;
     }
 
-    #controls {
+    #controls img{
       position: absolute;
       z-index : 3;
-      left: 280px;
-      top : 270px;
+      left: 0px;
+      top: 0px;
     }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -24,23 +24,40 @@
   </script>
   <script type="text/javascript">
     $(function() {
-      var w = 600;
-      var h = 600;
+      var w = 1000;
+      var h = w;
+      var offset=w*0.2;
+      var center = w/2;
+      $('#player-container').css({
+        width:w,
+        height:h
+      });
+   //     $('#controls').css({
+   //       left:w/2,
+   //       top:h/2
+   //     });
+//$('img.play').css('top', $('canvas:first').height()/2 - $('img.play').height()/2)
+//$('img.play').css('left', $('canvas:first').width()/2 - $('img.play').width()/2)
+//$('img.pause').css('top', $('canvas:first').height()/2 - $('img.pause').height()/2)
+//$('img.pause').css('left', $('canvas:first').width()/2 - $('img.pause').width()/2)
+
+
+
       var parts = 360;
-      var radius = 320;
       var canvas = $('#player')[0];
       var progress = $('#progress')[0];
       canvas.width = w;
       canvas.height = h;
       progress.width = w;
       progress.height = h;
-      var center = w/2;
+
       var ctx = canvas.getContext('2d');
       var pctx = progress.getContext('2d');
-      var waveheight = 140;
+      var waveheight = w/6;
+      var radius = w/2-waveheight/2;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/28997612.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        url      : 'http://api.soundcloud.com/tracks/28597611.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
           soundManager.onready(function() {
@@ -167,16 +184,27 @@
         pctx.restore();
       }
       updatePercent(0);
+
+            $('#controls .play').css({
+        //width : offset,
+        left  : center - $('#controls .play').width()/2,
+        top   : center - $('#controls .play').height()/2
+      });
+      $('#controls .pause').css({
+        //width : offset,
+        left  : center - $('#controls .pause').width()/2,
+        top   : center - $('#controls .pause').height()/2
+      });
     });
   </script>
 </head>
-<body style="background: #000">
+<body style="background: #ababab">
   <div id="player-container">
     <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
     <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
     <div id="controls">
-      <a href="#" class="play"><img src="img/play.png"/></a>
-      <a href="#" class="pause"><img src="img/pause.png" /></a>
+      <img class="play" src="img/play_balanced.png"/>
+      <img class="pause" src="img/pause.png" />
     </div>
   </div>
 </body>
