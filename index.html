@@ -1,7 +1,19 @@
 <html>
 <head>
   <title>player test</title>
+  <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <style>
+    #playerInfoText{
+      font-family: Aldrich, helvetica,arial;
+      position: absolute;
+      text-align: center;
+      z-index: 4;
+      color: #ffffff;
+      width: 300px;
+      font-size:30px;
+      display:none;
+    }
+
     #player-container {
       position: absolute;
       width: 1000px;
@@ -19,16 +31,6 @@
       left: 0px;
       top: 0px;
     }
-    #playerInfoText{
-     font-family: helvetica,arial;
-     position: absolute;
-     text-align: center;
-     z-index: 4;
-     color: #ffffff;
-     width: 300px;
-     font-size:30px;
-     display:none;
-    }
 
     .unselectable{
       -moz-user-select: none;
@@ -40,16 +42,17 @@
       position:absolute;
       z-index:4;
       display:none;
-      width: 70px;
+      width: 50px;
       height: 20px;
-      background-color: black;
+      background-color: transparent;
       cursor: pointer;
     }
 
     #volume .bar {
       display:block;
       float:left;
-      width: 5px;
+      width: 3px;
+      margin:0px;
       margin-left: 2px;
       height: 20px;
       bottom:16px;
@@ -60,11 +63,16 @@
     #volume .bar.active {
       background-color: #C3000D;
     }
+
+    body {
+      background : #000;
+    }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
+
 </head>
-<body style="background: #abbbcd">
+<body>
   <div id="player-container">
     <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
     <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
@@ -94,18 +102,20 @@
     soundManager.useFlashBlock = false;
   </script>
   <script type="text/javascript">
-    $(function() {
+    $(window).load(function() {
       //WIDTH ENTRY/////////////////////
-      var w = 1000;
+      var w = 300;
       var h = w;
       var offset=w*0.1;
       var center = w/2;
+      var client_id = 'bc73a3deaf438619d689a1100a066ce1';
+      var track_id = 29062695
       $('#player-container').css({
         width:w,
         height:h
       });
 
-      var parts = 360;
+      var parts = 1600;
       var canvas = $('#player')[0];
       var progress = $('#progress')[0];
       canvas.width = w;
@@ -116,53 +126,39 @@
       var ctx = canvas.getContext('2d');
       var pctx = progress.getContext('2d');
       var waveheight = w/6;
-      var radius = w/2-waveheight/2;
+      var radius = w/2-3;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/29062695.json?client_id=bc73a3deaf438619d689a1100a066ce1',
-        dataType : 'json',
+        url      : 'http://api.soundcloud.com/tracks/' + track_id + '.json?client_id=' + client_id,
+        dataType : $.support.cors ? 'json' : 'jsonp',
+        error : function() {
+        },
+        complete : function() {
+        },
         success  : function(o) {
-          $('#playerInfoText').show();
-          $('#volume').css('display', 'block');
-          $('#volume .bar').css('opacity', 0.7);
+          var matches = o.title.match(/(^.*) - (.*)/);
+          var artist = o.user.username;
+          if (matches[1]) {
+            artist = matches[1];
+          }
 
-          var loaded = false;
+          $('#playerInfoText').html(artist + '<br />' + matches[2]);
+          $('#playerInfoText').fadeIn();
+          $('#volume').fadeIn();
+          $('#volume .bar').css('opacity', 0.9);
+          $('#controls img').hide();
+          $('#controls').fadeIn();
+          $('#controls .play').fadeIn();
+
           soundManager.onready(function() {
             var soundObject = window.sound = soundManager.createSound({
               id: 'mySound',
-              url: o.stream_url + '?client_id=bc73a3deaf438619d689a1100a066ce1',
+              url: o.stream_url + '?client_id=' + client_id,
               autoLoad: true,
               autoPlay: false,
               stream : true,
-              onload: function() {
-              },
-              onplay : function() {
-                var that = this;
-                var scrub = function(e) {
-
-                  var calculatedRadians = -Math.atan2(e.clientY - (center - window.scrollY), e.clientX - (center - window.scrollX));
-
-                  var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
-
-                  var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
-                  var percent = (360 - correctedDegrees)/360;
-                  that.setPosition(parseInt(o.duration*percent, 10));
-                };
-                $('#player').bind('mousedown', function(e) {
-                  scrub(e);
-                  $('#player').bind('mousemove', scrub);
-                });
-
-                $('#player').bind('mouseup', function() {
-                  $('#player').unbind('mousemove', scrub);
-                });
-              },
-              whileplaying : function() {
-
-              },
               onfinish : function() {
                 pause();
-                this.setPosition(0);
                 played = false;
               },
               volume: 50
@@ -170,10 +166,26 @@
 
             setInterval(function() {
               updatePercent((sound.position/o.duration)*100, (sound.bytesLoaded/sound.bytesTotal)*100);
-            }, 1000/30)
+            }, 1000/30);
 
-            $('#controls').show();
-            $('#controls .play').show();
+            var scrub = function(e) {
+              var calculatedRadians = -Math.atan2(e.clientY - (center - window.scrollY), e.clientX - (center - window.scrollX));
+              var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
+              var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
+              var percent = (360 - correctedDegrees)/360;
+              soundObject.setPosition(parseInt(o.duration*percent, 10));
+            };
+
+            $('#player').bind('mousedown', function(e) {
+              scrub(e);
+              $('#player').bind('mousemove', scrub);
+            });
+
+            $('#player').bind('mouseup', function() {
+              $('#player').unbind('mousemove', scrub);
+            });
+
+
             var played = false;
             var play = function() {
               $('#controls .play').hide();
@@ -204,16 +216,13 @@
 
             $('#volume').css({
               left  : center-$('#volume').width()/2,
-              top   : center+radius/3
+              top   : center+radius/3.75
             });
 
             var volumeWidth = $('#volume').width();
             var volumeOffset = $('#volume').offset();
-            var move = function(e) {
-              var x = e.clientX - (volumeOffset.left - window.scrollX);
-              var volume = (x/volumeWidth)*100;
-              sound.setVolume(volume);
 
+            var presentVolume = function(volume) {
               $('#volume .bar').each(function(k) {
                 if (k<volume/10) {
                   $(this).addClass('active');
@@ -221,15 +230,24 @@
                   $(this).removeClass('active');
                 }
               });
+            }
+
+            var move = function(e) {
+              var x = e.clientX - (volumeOffset.left - window.scrollX);
+              var volume = (x/volumeWidth)*100;
+              sound.setVolume(volume);
+              presentVolume(volume);
               return false;
             };
+
+            presentVolume(sound.volume);
 
             var animateVolume = function() {
               if (!$(this).is('.animating')) {
                 var originalHeight = $(this).height();
                 $(this).addClass('animating');
                 $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 1 }, 200, 'linear', function() {
-                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.7 }, 200, 'linear', function() {
+                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.9 }, 200, 'linear', function() {
                     $(this).removeClass('animating');
                     $(this).height(originalHeight);
                   });
@@ -238,13 +256,11 @@
             }
 
             $('#volume .bar').bind('mousemove', animateVolume);
+            $('#volume .bar').bind('click', animateVolume);
 
             $('#volume').bind('click', move);
-            $('#volume .bar').bind('click', animateVolume);
             $('#volume').bind('mousedown', function() {
-
               $('#volume').bind('mousemove', move);
-
               $('#volume').one('mouseup', function() {
                 $('#volume').unbind('mousemove', move);
               });
@@ -254,63 +270,62 @@
 
           var waveform = new Image();
           waveform.onload = function() {
-
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, w, h);
             ctx.translate(center, center);
 
             ctx.fillStyle = "black";
             ctx.globalCompositeOperation = 'destination-in';
             var width = waveform.width/parts;
 
-            for (var i=0; i<parts; i++) {
+
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.beginPath();
+            ctx.arc(0,0, (radius*.85), 0, Math.PI*2, true);
+            ctx.closePath();
+            ctx.fillStyle = "black";
+            ctx.fill();
+
+            ctx.globalCompositeOperation = 'destination-out';
+
+            for (var i=0; i<parts/2; i++) {
               ctx.save();
-              ctx.rotate(i * 360/parts * Math.PI/180);
-              ctx.translate(0, -radius/1.1);
-              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width+(radius * 0.0025), waveheight);
+              ctx.rotate(i * 360/parts *2 * Math.PI/180);
+              ctx.translate(0, -radius/1.15);
+              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width* 1.8, waveheight/2);
               ctx.restore();
             }
 
             ctx.globalCompositeOperation = 'source-out';
             ctx.beginPath();
-            ctx.arc(0,0, (radius*1.10), 0, Math.PI*2, true);
+            ctx.arc(0,0, (radius*.9), 0, Math.PI*2, true);
             ctx.closePath();
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "#f6f6f6";
             ctx.fill();
+
           };
           waveform.src = o.waveform_url;
-          $('#playerInfoText').css('width', radius/2);
+          $('#playerInfoText').css('width', radius/1.4);
           $('#playerInfoText').css({
             left  : center-$('#playerInfoText').width()/2,
-            top   : center+radius/5,
-            "font-size": radius/25
-
-          })
-        $('#playerInfoText').html(o.title)
+            top   : center-radius/2.25,
+            "font-size": radius/12,
+            "line-height": radius/135
+          });
         }
       });
 
-
-
       function updatePercent(percent, bufferPercent) {
-
+        percent+=0.1;
         progress.width = 0;
         progress.width = w;
         pctx.save();
-          pctx.beginPath();
-          pctx.arc(center, center, (radius/1.1001), 0, Math.PI*2, true);
-          pctx.closePath();
-          pctx.fillStyle = "#b0b0b0";
-          pctx.fill();
-
           if (bufferPercent) {
             pctx.save();
               pctx.beginPath();
               pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((bufferPercent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.arc(0,0, radius/1.7, -Math.PI*.5, ((bufferPercent/100) * (Math.PI*2)) -Math.PI*.5, false);
               pctx.lineTo(0, 0);
               pctx.closePath();
-              pctx.fillStyle = "#ffffff";
+              pctx.fillStyle = "#b0b0b0";
               pctx.fill();
             pctx.restore();
           }
@@ -319,7 +334,7 @@
             pctx.save();
               pctx.beginPath();
               pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.arc(0,0, radius/1.0982, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
               pctx.lineTo(0, 0);
               pctx.closePath();
               pctx.fillStyle = "#C3000D";
@@ -327,26 +342,20 @@
             pctx.restore();
           }
 
-          pctx.beginPath();
-          pctx.arc(center,center, (radius/1.5), 0, Math.PI*2, true);
-          pctx.closePath();
-          pctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-          pctx.fill();
-
           if (percent > 0) {
             pctx.save();
               pctx.beginPath();
               pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.96, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.arc(0,0, radius/1.7, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
               pctx.lineTo(0, 0);
-              pctx.closePath();
-              pctx.fillStyle = "black";
+              pctx.fillStyle = "rgba(1, 1, 1, 0.5)";
               pctx.fill();
+              pctx.closePath();
             pctx.restore();
           }
 
           pctx.beginPath();
-          pctx.arc(center,center, (radius/2.05), 0, Math.PI*2, true);
+          pctx.arc(center,center, (radius/1.80), 0, Math.PI*2, true);
           pctx.closePath();
           pctx.fillStyle = "black";
           pctx.fill();
