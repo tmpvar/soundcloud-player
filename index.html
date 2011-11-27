@@ -18,14 +18,27 @@
       left: 0px;
       top: 0px;
     }
+    #playerInfoText{
+     font-family: helvetica,arial;
+     position: absolute;
+     text-align: center;
+     z-index: 4;
+     color: #ffffff;
+     width: 300px;
+     font-size:30px;
+    }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2.js"></script>
 </head>
-<body style="background: #ababab">
+<body style="background: #abbbcd">
   <div id="player-container">
     <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
     <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
+    <div id='playerInfoText'>
+      song: this awesome thing
+      artist: the testers
+    </div>
     <div id="controls">
       <img class="play" src="img/play_balanced.png"/>
       <img class="pause" src="img/pause.png" />
@@ -160,6 +173,14 @@
             ctx.fill();
           };
           waveform.src = o.waveform_url;
+          $('#playerInfoText').css('width', radius/2);
+          $('#playerInfoText').css({
+            left  : center-$('#playerInfoText').width()/2,
+            top   : center+radius/5,
+            "font-size": radius/25 
+
+          })
+        $('#playerInfoText').html(o.title+"<br>"+"<br>"+o.description.replace(o.title, ''))
         }
       });
 
@@ -207,9 +228,9 @@
       $('#controls .pause').css({
         left  : center - $('#controls .pause').width()/2,
         top   : center - $('#controls .pause').height()/2
-      });
+      })  
+
     });
   </script>
-
 </body>
 </html>
