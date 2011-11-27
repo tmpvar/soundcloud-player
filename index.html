@@ -27,6 +27,7 @@
      color: #ffffff;
      width: 300px;
      font-size:30px;
+     display:none;
     }
 
     .unselectable{
@@ -38,7 +39,7 @@
     #volume {
       position:absolute;
       z-index:4;
-      display:block;
+      display:none;
       width: 70px;
       height: 20px;
       background-color: black;
@@ -121,6 +122,10 @@
         url      : 'http://api.soundcloud.com/tracks/29062695.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
+          $('#playerInfoText').show();
+          $('#volume').css('display', 'block');
+          $('#volume .bar').css('opacity', 0.7);
+
           var loaded = false;
           soundManager.onready(function() {
             var soundObject = window.sound = soundManager.createSound({
@@ -134,13 +139,13 @@
               onplay : function() {
                 var that = this;
                 var scrub = function(e) {
-                  var calculatedRadians = -Math.atan2(e.clientY - center, e.clientX - center);
+
+                  var calculatedRadians = -Math.atan2(e.clientY - (center - window.scrollY), e.clientX - (center - window.scrollX));
 
                   var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
 
                   var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
                   var percent = (360 - correctedDegrees)/360;
-                  console.log(o.duration, percent, o.duration*percent);
                   that.setPosition(parseInt(o.duration*percent, 10));
                 };
                 $('#player').bind('mousedown', function(e) {
@@ -205,7 +210,7 @@
             var volumeWidth = $('#volume').width();
             var volumeOffset = $('#volume').offset();
             var move = function(e) {
-              var x = e.clientX - volumeOffset.left;
+              var x = e.clientX - (volumeOffset.left - window.scrollX);
               var volume = (x/volumeWidth)*100;
               sound.setVolume(volume);
 
@@ -223,8 +228,8 @@
               if (!$(this).is('.animating')) {
                 var originalHeight = $(this).height();
                 $(this).addClass('animating');
-                $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 0.6 }, 200, 'linear', function() {
-                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 1 }, 200, 'linear', function() {
+                $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 1 }, 200, 'linear', function() {
+                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.7 }, 200, 'linear', function() {
                     $(this).removeClass('animating');
                     $(this).height(originalHeight);
                   });
@@ -317,7 +322,7 @@
               pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
               pctx.lineTo(0, 0);
               pctx.closePath();
-              pctx.fillStyle = "#920B0D";
+              pctx.fillStyle = "#C3000D";
               pctx.fill();
             pctx.restore();
           }
