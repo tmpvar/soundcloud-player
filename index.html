@@ -102,7 +102,14 @@
     soundManager.useFlashBlock = false;
   </script>
   <script type="text/javascript">
-    $(window).load(function() {
+    $(function() {
+
+      $('.unselectable').live('dragstart', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      });
+
       //WIDTH ENTRY/////////////////////
       var w = 300;
       var h = w;
@@ -363,7 +370,6 @@
       }
       updatePercent(0);
 
-      $('img').bind('dragstart', function(event) { event.preventDefault() })
       $('#controls .play').css({ width : offset, height : offset});
       $('#controls .play').css({
         left  : center - $('#controls .play').width()/2,
