@@ -8,6 +8,10 @@
       height: 1000px;
     }
 
+    #controls {
+      display:none;
+    }
+
     #controls img{
       -moz-user-select: none;
       -webkit-user-select: none;
@@ -74,9 +78,10 @@
       var radius = w/2-waveheight/2;
 
       $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/28597611.json?client_id=bc73a3deaf438619d689a1100a066ce1',
+        url      : 'http://api.soundcloud.com/tracks/29068695.json?client_id=bc73a3deaf438619d689a1100a066ce1',
         dataType : 'json',
         success  : function(o) {
+          var loaded = false;
           soundManager.onready(function() {
             var soundObject = window.sound = soundManager.createSound({
               id: 'mySound',
@@ -108,11 +113,19 @@
                 });
               },
               whileplaying : function() {
-                updatePercent((this.position/o.duration)*100);
+
+              },
+              onfinish : function() {
+                pause();
+                this.setPosition(0);
+                played = false;
               },
               volume: 50
             });
 
+            setInterval(function() {
+              updatePercent((sound.position/o.duration)*100, (sound.bytesLoaded/sound.bytesTotal)*100);
+            }, 1000/30)
 
             $('#controls').show();
             $('#controls .play').show();
@@ -161,13 +174,13 @@
               ctx.save();
               ctx.rotate(i * 360/parts * Math.PI/180);
               ctx.translate(0, -radius/1.1);
-              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width, waveheight);
+              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width+(radius * 0.0025), waveheight);
               ctx.restore();
             }
 
             ctx.globalCompositeOperation = 'source-out';
             ctx.beginPath();
-            ctx.arc(0,0, (radius), 0, Math.PI*2, true);
+            ctx.arc(0,0, (radius*1.10), 0, Math.PI*2, true);
             ctx.closePath();
             ctx.fillStyle = "black";
             ctx.fill();
@@ -177,40 +190,70 @@
           $('#playerInfoText').css({
             left  : center-$('#playerInfoText').width()/2,
             top   : center+radius/5,
-            "font-size": radius/25 
+            "font-size": radius/25
 
           })
         $('#playerInfoText').html(o.title+"<br>"+"<br>"+o.description.replace(o.title, ''))
         }
       });
 
-      function updatePercent(percent) {
+
+
+      function updatePercent(percent, bufferPercent) {
+
+        progress.width = 0;
+        progress.width = w;
         pctx.save();
           pctx.beginPath();
-          pctx.arc(center, center, (radius/1.1), 0, Math.PI*2, true);
+          pctx.arc(center, center, (radius/1.1001), 0, Math.PI*2, true);
           pctx.closePath();
-          pctx.fillStyle = "white";
+          pctx.fillStyle = "#b0b0b0";
           pctx.fill();
 
-          pctx.save();
-            pctx.beginPath();
-            pctx.translate(center, center);
-            pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
-            pctx.lineTo(0, 0);
-            pctx.closePath();
-            pctx.fillStyle = "#920B0D";
-            pctx.fill();
+          if (bufferPercent) {
+            pctx.save();
+              pctx.beginPath();
+              pctx.translate(center, center);
+              pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((bufferPercent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.lineTo(0, 0);
+              pctx.closePath();
+              pctx.fillStyle = "#ffffff";
+              pctx.fill();
+            pctx.restore();
+          }
 
-          pctx.restore();
+          if (percent > 0) {
+            pctx.save();
+              pctx.beginPath();
+              pctx.translate(center, center);
+              pctx.arc(0,0, radius/1.0978, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.lineTo(0, 0);
+              pctx.closePath();
+              pctx.fillStyle = "#920B0D";
+              pctx.fill();
+            pctx.restore();
+          }
 
           pctx.beginPath();
           pctx.arc(center,center, (radius/1.5), 0, Math.PI*2, true);
           pctx.closePath();
-          pctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+          pctx.fillStyle = "rgba(0, 0, 0, 0.4)";
           pctx.fill();
 
+          if (percent > 0) {
+            pctx.save();
+              pctx.beginPath();
+              pctx.translate(center, center);
+              pctx.arc(0,0, radius/1.96, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
+              pctx.lineTo(0, 0);
+              pctx.closePath();
+              pctx.fillStyle = "black";
+              pctx.fill();
+            pctx.restore();
+          }
+
           pctx.beginPath();
-          pctx.arc(center,center, (radius/2), 0, Math.PI*2, true);
+          pctx.arc(center,center, (radius/2.05), 0, Math.PI*2, true);
           pctx.closePath();
           pctx.fillStyle = "black";
           pctx.fill();
@@ -228,7 +271,7 @@
       $('#controls .pause').css({
         left  : center - $('#controls .pause').width()/2,
         top   : center - $('#controls .pause').height()/2
-      })  
+      })
 
     });
   </script>
