@@ -37,19 +37,27 @@
 
     #volume {
       position:absolute;
+      z-index:4;
       display:block;
-      border:1px solid #f0f;
       width: 70px;
-      height: 20px;
+      height: 15px;
       background-color: black;
+      cursor: pointer;
     }
 
     #volume .bar {
       display:block;
       float:left;
-      width: 10px;
-      height: 20px;
-      background-color: blue;
+      width: 5px;
+      margin-left: 2px;
+      height: 15px;
+      bottom:16px;
+      background: grey;
+      cursor: pointer;
+    }
+
+    #volume .bar.active {
+      background-color: red;
     }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -67,6 +75,9 @@
       <img class="unselectable pause" src="img/pause.png" />
     </div>
     <div id="volume" class="unselectable">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
@@ -186,6 +197,49 @@
 
             pause();
 
+            var volumeWidth = $('#volume').width();
+            var volumeOffset = $('#volume').offset();
+            var move = function(e) {
+              var x = e.clientX - volumeOffset.left;
+              var volume = (x/volumeWidth)*100;
+              sound.setVolume(volume);
+
+              $('#volume .bar').each(function(k) {
+                if (k<volume/10) {
+                  $(this).addClass('active');
+                } else {
+                  $(this).removeClass('active');
+                }
+              });
+              return false;
+            };
+
+            $('#volume .bar').bind('mousemove', function() {
+              if (!$(this).is('.animating')) {
+                $(this).addClass('animating');
+                $(this).animate({ 'margin-top' : '-=5', height: '+=5', opacity: 0.6 }, function() {
+                  $(this).animate({ 'margin-top' : '+=5', height: '-=5', opacity: 1 }, function() {
+                    $(this).removeClass('animating');
+                  });
+                });
+              }
+            });
+
+            $('#volume').bind('click', move);
+            $('#volume').bind('mousedown', function() {
+
+              $('#volume').bind('mousemove', move);
+
+              $('#volume').one('mouseup', function() {
+                $('#volume').unbind('mousemove', move);
+              });
+              return false;
+            });
+          });
+
+          $('#volume').css({
+            left  : center-$('#volume').width()/2,
+            top   : center+radius/3
           });
 
           var waveform = new Image();
@@ -222,7 +276,7 @@
             "font-size": radius/25
 
           })
-        $('#playerInfoText').html(o.title+"<br>"+"<br>"+o.description.replace(o.title, ''))
+        $('#playerInfoText').html(o.title)
         }
       });
 
