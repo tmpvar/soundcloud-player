@@ -9,6 +9,10 @@
     }
 
     #controls img{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+
       position: absolute;
       z-index : 3;
       left: 0px;
@@ -27,7 +31,6 @@
       <img class="pause" src="img/pause.png" />
     </div>
   </div>
-
     <script type="text/javascript">
     soundManager.url = '/sm2/swf/';
     soundManager.flashVersion = 9;
@@ -194,6 +197,7 @@
       }
       updatePercent(0);
 
+      $('img').bind('dragstart', function(event) { event.preventDefault() })
       $('#controls .play').css({ width : offset, height : offset});
       $('#controls .play').css({
         left  : center - $('#controls .play').width()/2,
