@@ -28,25 +28,52 @@
      width: 300px;
      font-size:30px;
     }
+
     .unselectable{
       -moz-user-select: none;
       -webkit-user-select: none;
       user-select: none;
     }
+
+    #volume {
+      position:absolute;
+      display:block;
+      border:1px solid #f0f;
+      width: 70px;
+      height: 20px;
+      background-color: black;
+    }
+
+    #volume .bar {
+      display:block;
+      float:left;
+      width: 10px;
+      height: 20px;
+      background-color: blue;
+    }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="/sm2/soundmanager2.js"></script>
+  <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
 </head>
 <body style="background: #abbbcd">
   <div id="player-container">
     <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
     <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
     <div class="unselectable" id='playerInfoText'>
-      linking error 
+      linking error
     </div>
     <div id="controls">
       <img class="unselectable play" src="img/play_balanced.png"/>
       <img class="unselectable pause" src="img/pause.png" />
+    </div>
+    <div id="volume" class="unselectable">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
     </div>
   </div>
     <script type="text/javascript">
