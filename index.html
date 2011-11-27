@@ -40,7 +40,7 @@
       z-index:4;
       display:block;
       width: 70px;
-      height: 15px;
+      height: 20px;
       background-color: black;
       cursor: pointer;
     }
@@ -50,14 +50,14 @@
       float:left;
       width: 5px;
       margin-left: 2px;
-      height: 15px;
+      height: 20px;
       bottom:16px;
-      background: grey;
+      background: white;
       cursor: pointer;
     }
 
     #volume .bar.active {
-      background-color: red;
+      background-color: #C3000D;
     }
   </style>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -197,6 +197,11 @@
 
             pause();
 
+            $('#volume').css({
+              left  : center-$('#volume').width()/2,
+              top   : center+radius/3
+            });
+
             var volumeWidth = $('#volume').width();
             var volumeOffset = $('#volume').offset();
             var move = function(e) {
@@ -214,18 +219,21 @@
               return false;
             };
 
-            $('#volume .bar').bind('mousemove', function() {
+            var animateVolume = function() {
               if (!$(this).is('.animating')) {
                 $(this).addClass('animating');
-                $(this).animate({ 'margin-top' : '-=5', height: '+=5', opacity: 0.6 }, function() {
-                  $(this).animate({ 'margin-top' : '+=5', height: '-=5', opacity: 1 }, function() {
+                $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 0.6 }, 200, 'linear', function() {
+                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 1 }, 200, 'linear', function() {
                     $(this).removeClass('animating');
                   });
                 });
               }
-            });
+            }
+
+            $('#volume .bar').bind('mousemove', animateVolume);
 
             $('#volume').bind('click', move);
+            $('#volume .bar').bind('click', animateVolume);
             $('#volume').bind('mousedown', function() {
 
               $('#volume').bind('mousemove', move);
@@ -235,11 +243,6 @@
               });
               return false;
             });
-          });
-
-          $('#volume').css({
-            left  : center-$('#volume').width()/2,
-            top   : center+radius/3
           });
 
           var waveform = new Image();
