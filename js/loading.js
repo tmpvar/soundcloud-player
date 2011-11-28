@@ -57,7 +57,8 @@
     bind : function() {
       var that = this;
       this.player.el.bind('loading', function() {
-        this.stepper = setInterval(function() {
+        clearInterval(that.stepper);
+        that.stepper = setInterval(function() {
           that.sliceStep();
         }, this.nextSlice);
         that.el.fadeIn();
@@ -90,7 +91,6 @@
         var done = false
         while(current--) {
           slice = this.slices[current];
-          //if (current === this.currentSlice) {
           slice.height+=slice.direction;
 
           height = (this.player.width-this.player.radius)/2+slice.height;
