@@ -1,0 +1,87 @@
+.container {
+  position: absolute;
+
+}
+
+  .container .track-info {
+    font-family: Aldrich, helvetica,arial;
+    position: absolute;
+    text-align: center;
+    z-index: 150;
+    color: #d0d0d0;
+    width: 300px;
+    font-size:30px;
+    display:none;
+    cursor: default;
+  }
+
+  .container .track-info:hover {
+    color: #fff;
+  }
+
+  .container .layer {
+    position:absolute;
+  }
+
+  .container .layer.progress {
+    z-index: 100;
+  }
+
+  .container .layer.waveform {
+    z-index: 101;
+  }
+
+  .container .layer.loading {
+    z-index: 151;
+  }
+
+  .container .controls {
+    display:none;
+  }
+
+    .container .controls img{
+      position: absolute;
+      z-index : 120;
+      left: 0px;
+      top: 0px;
+    }
+
+    .container .controls img.pause {
+      margin-left: 2px;
+    }
+
+  .container .volume {
+    position:absolute;
+    z-index:150;
+    display:none;
+    width: 50px;
+    height: 20px;
+    background-color: transparent;
+    cursor: default;
+  }
+
+  .container .volume .bar {
+    display:block;
+    float:left;
+    width: 3px;
+    margin:0px;
+    margin-left: 2px;
+    height: 20px;
+    bottom:16px;
+    background: white;
+    cursor: default;
+  }
+
+  .container .volume .bar.active {
+    background-color: #C3000D;
+  }
+
+.unselectable{
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  background : #f0f;
+}
