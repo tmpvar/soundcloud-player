@@ -41,9 +41,6 @@
         that.el.fadeIn(player.fadeInSpeed);
       });
 
-      this.player.el.bind('loaded', function() {
-
-      });
     }
   };
 

@@ -1,7 +1,6 @@
 .container {
   position: absolute;
-  width: 1000px;
-  height: 1000px;
+
 }
 
   .container .track-info {
@@ -36,16 +35,20 @@
     display:none;
   }
 
-  .container .controls img{
-    position: absolute;
-    z-index : 120;
-    left: 0px;
-    top: 0px;
-  }
+    .container .controls img{
+      position: absolute;
+      z-index : 120;
+      left: 0px;
+      top: 0px;
+    }
+
+    .container .controls img.pause {
+      margin-left: 2px;
+    }
 
   .container .volume {
     position:absolute;
-    z-index:4;
+    z-index:150;
     display:none;
     width: 50px;
     height: 20px;

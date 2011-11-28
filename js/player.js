@@ -93,6 +93,7 @@
     createSound : function(o, fn) {
       var that = this;
       soundManager.onready(function() {
+        that.el.trigger('soundmanager:ready');
         that.sound = soundManager.createSound({
           id : 'soundcloud-sound',
           url: o.stream_url + '?client_id=' + that.soundcloud.key,
