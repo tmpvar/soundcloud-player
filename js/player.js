@@ -24,8 +24,8 @@
   }
 
   Player.prototype = {
-    width : 400,
-    height : 400,
+    width : 800,
+    height : 800,
     fadeInSpeed : 100,
     fadeOutSpeed : 100,
     sound : null,

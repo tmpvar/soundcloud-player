@@ -99,7 +99,7 @@
             pctx.arc(0,0, this.player.radius/1.12, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
-            pctx.fillStyle = "#C3000D";
+            pctx.fillStyle = "#11db11";
             pctx.fill();
           pctx.restore();
 

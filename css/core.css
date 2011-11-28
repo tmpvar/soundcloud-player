@@ -73,7 +73,7 @@
   }
 
   .container .volume .bar.active {
-    background-color: #C3000D;
+    background-color: #11db11;
   }
 
 .unselectable{
@@ -83,5 +83,5 @@
 }
 
 body {
-  background : #f0f;
+  background : #abbbcd;
 }
