@@ -23,10 +23,16 @@
 
       this.ctx = this.el[0].getContext('2d');
       this.player.el.append(this.el);
+      this.el.hide();
     },
 
     bind : function() {
       var that = this;
+
+      this.player.el.bind('soundmanager:ready', function() {
+        that.el.show();
+      });
+
       this.player.el.bind('trackinfo', function(e, data) {
         // kick off a new image load
         that.img.onload = function() {

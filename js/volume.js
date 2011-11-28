@@ -16,8 +16,8 @@
         for (var i=0; i<10; i++) {
           this.el.append('<div class="bar"></div>');
         }
-        this.el.show();
         this.player.el.append(this.el);
+        this.el.hide();
       }
 
       this.el.css({
@@ -28,7 +28,7 @@
     bind : function() {
       var that = this;
       this.player.el.bind('soundmanager:ready', function() {
-        that.el.fadeIn();
+        that.el.css('display', 'block');
         that.el.css('opacity', 0.9);
       });
 

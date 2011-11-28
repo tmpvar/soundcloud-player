@@ -19,11 +19,16 @@
 
       this.ctx = this.el[0].getContext('2d');
       this.player.el.append(this.el);
+      this.el.hide();
     },
     bind : function() {
       var that = this;
       this.player.el.bind('buffering', function(e, data) {
         that.percentBuffered = (data.value/data.total) * 100;
+      });
+
+      this.player.el.bind('soundmanager:ready', function() {
+        that.el.show();
       });
 
       this.player.el.bind('playing', function(e, data) {
