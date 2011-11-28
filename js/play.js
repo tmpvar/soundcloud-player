@@ -19,7 +19,7 @@
       var
       center = this.player.center,
       radius = this.player.radius,
-      ratio = .30;
+      ratio = .20;
 
       $('.play', this.el).css({
         width : radius*ratio,
@@ -39,9 +39,16 @@
       })
     },
     bind : function() {
-      var that = this, played = false;
+      var that = this, paused = false;
       this.player.el.bind('loaded', function() {
         that.position();
+        $('.play', that.el).show();
+        that.el.fadeIn(player.fadeInSpeed);
+      });
+
+      this.player.el.bind('loading', function() {
+        paused = false;
+        $('.pause', that.el).hide();
         $('.play', that.el).show();
         that.el.fadeIn(player.fadeInSpeed);
       });
@@ -51,7 +58,6 @@
         $('.play', that.el).show();
       });
 
-      var paused = false;
       $('.pause', this.el).bind('mousedown', function (e) {
         e.stopImmediatePropagation();
         if (that.player.sound) {
