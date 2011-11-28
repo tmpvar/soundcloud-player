@@ -61,8 +61,8 @@
 
     load : function(id, fn) {
       if (this.sound) {
-        sound.destruct();
-        sound = null;
+        this.sound.destruct();
+        this.sound = null;
       }
 
       var that = this;

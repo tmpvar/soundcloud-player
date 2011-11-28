@@ -46,36 +46,34 @@
 
     tick : function() {
       var ctx = this.ctx;
-      ctx.translate(this.player.center, this.player.center);
+      ctx.save();
+        ctx.translate(this.player.center, this.player.center);
+        var slicewidth = this.img.width/this.slices;
 
-      ctx.fillStyle = "black";
-      ctx.globalCompositeOperation = 'destination-in';
-      var slicewidth = this.img.width/this.slices;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath();
+        ctx.arc(0,0, (this.player.radius/1.05), 0, Math.PI*2, true);
+        ctx.closePath();
+        ctx.fillStyle = "black";
+        ctx.fill();
 
+        ctx.globalCompositeOperation = 'destination-out';
 
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.beginPath();
-      ctx.arc(0,0, (this.player.radius*.85), 0, Math.PI*2, true);
-      ctx.closePath();
-      ctx.fillStyle = "black";
-      ctx.fill();
+        for (var i=0; i<this.slices/2; i++) {
+          ctx.save();
+          ctx.rotate(i * 360/this.slices *2 * Math.PI/180);
+          ctx.translate(0, -this.player.radius/1.15);
+          ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, 140, 0, 0, slicewidth*2.1, this.height);
+          ctx.restore();
+        }
 
-      ctx.globalCompositeOperation = 'destination-out';
-
-      for (var i=0; i<this.slices/2; i++) {
-        ctx.save();
-        ctx.rotate(i * 360/this.slices *2 * Math.PI/180);
-        ctx.translate(0, -this.player.radius/1.15);
-        ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, 140, 0, 0, slicewidth*2.1, this.height);
-        ctx.restore();
-      }
-
-      ctx.globalCompositeOperation = 'source-out';
-      ctx.beginPath();
-      ctx.arc(0,0, (this.player.radius*.9), 0, Math.PI*2, true);
-      ctx.closePath();
-      ctx.fillStyle = "#f6f6f6";
-      ctx.fill();
+        ctx.globalCompositeOperation = 'source-out';
+        ctx.beginPath();
+        ctx.arc(0,0, (this.player.radius*.9), 0, Math.PI*2, true);
+        ctx.closePath();
+        ctx.fillStyle = "#f6f6f6";
+        ctx.fill();
+      ctx.restore();
     }
   };
 

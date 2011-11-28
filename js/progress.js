@@ -74,7 +74,7 @@
       }
 
       pctx.beginPath();
-      pctx.arc(this.player.center, this.player.center, (this.player.radius*.90), 0, Math.PI*2, true);
+      pctx.arc(this.player.center, this.player.center, (this.player.radius/1.15), 0, Math.PI*2, true);
       pctx.closePath();
       pctx.fillStyle = "black";
       pctx.fill();
@@ -96,7 +96,7 @@
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0,0, this.player.radius/1.12, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0,0, this.player.radius/1.159, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
             pctx.fillStyle = "#11db11";
