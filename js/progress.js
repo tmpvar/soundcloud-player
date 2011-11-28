@@ -23,12 +23,31 @@
     bind : function() {
       var that = this;
       this.player.el.bind('buffering', function(e, data) {
-        console.log(arguments)
         that.percentBuffered = (data.value/data.total) * 100;
       });
 
       this.player.el.bind('playing', function(e, data) {
         that.percentPlayed = (data.value/data.total) * 100;
+      });
+
+      var scrub = function(e) {
+        var calculatedRadians = -Math.atan2(e.clientY - (that.player.center - window.scrollY), e.clientX - (that.player.center - window.scrollX));
+        var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
+        var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
+        var percent = (360 - correctedDegrees)/360;
+
+        if (that.player.sound) {
+          that.player.sound.setPosition(parseInt(that.player.sound.meta.duration*percent, 10));
+        }
+      };
+
+      this.player.el.bind('mousedown', function(e) {
+        scrub(e);
+        that.player.el.bind('mousemove', scrub);
+      });
+
+      this.player.el.bind('mouseup', function() {
+        that.player.el.unbind('mousemove', scrub);
       });
     },
 
@@ -36,11 +55,20 @@
       this.el.attr('width', 0);
       this.el.attr('width', this.player.width);
 
-      var pctx = this.ctx;
-
-      if (this.percentPlayed === 99.9) {
-        this.percentPlayed = 100;
+      var pctx = this.ctx, position = 0;
+      if (this.player.sound) {
+        position = (this.player.sound.position/this.player.sound.meta.duration)*100;
       }
+
+      if (position >= 99.9) {
+        position = 100;
+      }
+
+      pctx.beginPath();
+      pctx.arc(this.player.center, this.player.center, (this.player.radius*.85), 0, Math.PI*2, true);
+      pctx.closePath();
+      pctx.fillStyle = "black";
+      pctx.fill();
 
       pctx.save();
         if (this.percentBuffered > 0) {
@@ -55,11 +83,11 @@
           pctx.restore();
         }
 
-        if (this.percentPlayed > 0) {
+        if (position > 0) {
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0,0, this.player.radius/1.0982, -Math.PI*.5, ((this.percentPlayed/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0,0, this.player.radius/1.12, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
             pctx.fillStyle = "#C3000D";
@@ -69,7 +97,7 @@
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0, 0, this.player.radius/1.7, -Math.PI*.5, ((this.percentPlayed/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0, 0, this.player.radius/1.7, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.fillStyle = "rgba(1, 1, 1, 0.5)";
             pctx.fill();

@@ -9,24 +9,17 @@
   <script type="text/javascript" src="/js/info.js"></script>
   <script type="text/javascript" src="/js/play.js"></script>
   <script type="text/javascript" src="/js/progress.js"></script>
+  <script type="text/javascript" src="/js/loading.js"></script>
+  <script type="text/javascript" src="/js/volume.js"></script>
   <script type="text/javascript" src="/js/waveform.js"></script>
   <script type="text/javascript" src="/js/overlay.js"></script>
 
 </head>
 <body>
   <div id="player"></div>
-    <!--canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
-    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas-->
 
   <script type="text/javascript">
     $(function() {
-
-      $('.unselectable').live('dragstart', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return false;
-      });
-
       var player = window.player = new Player({
         selector      : '#player',
         soundcloud    : {
@@ -40,113 +33,6 @@
         }
       });
       player.load(29062695);
-
-/*
-
-        success  : function(o) {
-          $('#volume').fadeIn();
-          $('#volume .bar').css('opacity', 0.9);
-          $('#controls img').hide();
-          $('#controls').fadeIn();
-          $('#controls .play').fadeIn();
-
-          soundManager.onready(function() {
-            var soundObject = window.sound = soundManager.createSound({
-              id: 'mySound',
-              url: o.stream_url + '?client_id=' + client_id,
-              autoLoad: true,
-              autoPlay: false,
-              stream : true,
-              onfinish : function() {
-                pause();
-                played = false;
-              },
-              volume: 50
-            });
-
-            setInterval(function() {
-              updatePercent((sound.position/o.duration)*100, (sound.bytesLoaded/sound.bytesTotal)*100);
-            }, 1000/30);
-
-            var scrub = function(e) {
-              var calculatedRadians = -Math.atan2(e.clientY - (center - window.scrollY), e.clientX - (center - window.scrollX));
-              var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
-              var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
-              var percent = (360 - correctedDegrees)/360;
-              soundObject.setPosition(parseInt(o.duration*percent, 10));
-            };
-
-            $('#player').bind('mousedown', function(e) {
-              scrub(e);
-              $('#player').bind('mousemove', scrub);
-            });
-
-            $('#player').bind('mouseup', function() {
-              $('#player').unbind('mousemove', scrub);
-            });
-
-
-            var played = false;
-
-            $('#volume').css({
-              left  : center-$('#volume').width()/2,
-              top   : center+radius/3.75
-            });
-
-            var volumeWidth = $('#volume').width();
-            var volumeOffset = $('#volume').offset();
-
-            var updateVolume = function(volume) {
-              $('#volume .bar').each(function(k) {
-                if (k<volume/10) {
-                  $(this).addClass('active');
-                } else {
-                  $(this).removeClass('active');
-                }
-              });
-            }
-
-            var move = function(e) {
-              var x = e.clientX - (volumeOffset.left - window.scrollX);
-              var volume = (x/volumeWidth)*100;
-              sound.setVolume(volume);
-              updateVolume(volume);
-              return false;
-            };
-
-            updateVolume(sound.volume);
-
-            var animateVolume = function() {
-              if (!$(this).is('.animating')) {
-                var originalHeight = $(this).height();
-                $(this).addClass('animating');
-                $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 1 }, 200, 'linear', function() {
-                  $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.9 }, 200, 'linear', function() {
-                    $(this).removeClass('animating');
-                    $(this).height(originalHeight);
-                  });
-                });
-              }
-            }
-
-            $('#volume .bar').bind('mousemove', animateVolume);
-            $('#volume .bar').bind('click', animateVolume);
-
-            $('#volume').bind('click', move);
-            $('#volume').bind('mousedown', function() {
-              $('#volume').bind('mousemove', move);
-              $('#volume').one('mouseup', function() {
-                $('#volume').unbind('mousemove', move);
-              });
-              return false;
-            });
-          });
-
-
-        }
-      });
-
-*/
     });
   </script>
 </body>

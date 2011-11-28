@@ -14,60 +14,72 @@
       this.el.append('<img class="unselectable pause" src="img/pause.png" />');
       $('img', this.el).hide();
       this.player.el.append(this.el);
-
-      var offset = this.player.offset, center = this.player.center;
+    },
+    position: function() {
+      var
+      center = this.player.center,
+      radius = this.player.radius,
+      ratio = .30;
 
       $('.play', this.el).css({
-        width : offset,
-        height : offset
+        width : radius*ratio,
+        height : radius*ratio
       });
 
       $('.play', this.el).css({
-        left  : center - offset/2,
-        top   : center - offset/2
+        left  : center - $('.play', this.el).width()/2,
+        top   : center - $('.play', this.el).height()/2
       });
 
-      $('.pause', this.el).css({ width : offset , height: offset});
+
+      $('.pause', this.el).css({ width : radius*ratio, height: radius*ratio});
       $('.pause', this.el).css({
-        left  : center - offset/2,
-        top   : center - offset/2
+        left  : center - $('.pause', this.el).width()/2,
+        top   : center - $('.pause', this.el).height()/2
       })
-
     },
     bind : function() {
-      var that = this;
+      var that = this, played = false;
       this.player.el.bind('loaded', function() {
+        that.position();
+        $('.play', that.el).show();
         that.el.fadeIn(player.fadeInSpeed);
       });
 
-      /*
-                  var play = function() {
-              $('#controls .play').hide();
-              $('#controls .pause').show();
-              if (!played) {
-                soundObject.play();
-                played = true;
-              } else {
-                soundObject.resume();
-              }
-              return false;
-            };
+      this.player.el.bind('finished', function() {
+        $('.pause', that.el).hide();
+        $('.play', that.el).show();
+      });
 
-            var pause = function () {
-              $('#controls .play').show();
-              $('#controls .pause').hide();
+      var paused = false;
+      $('.pause', this.el).bind('mousedown', function (e) {
+        e.stopImmediatePropagation();
+        if (that.player.sound) {
+          paused = true;
+          $('.play', that.el).show();
+          $('.pause', that.el).hide();
+          that.player.sound.pause();
+          that.player.el.trigger('pause');
+        }
+        return false;
+      });
 
-              if (played) {
-                soundObject.pause();
-              }
-              return false;
-            };
+      $('.play', this.el).bind('mousedown', function(e) {
+        e.stopImmediatePropagation();
+        if (that.player.sound) {
+          $('.play', that.el).hide();
+          $('.pause', that.el).show();
+          if (paused) {
+            that.player.sound.resume();
+          } else {
+            that.player.sound.play();
+          }
+          paused = false;
 
-            $('#controls .pause').bind('click', pause);
-            $('#controls .play').bind('click', play);
-
-            pause();
-            */
+          that.player.el.trigger('play');
+        }
+        return false;
+      });
     }
   };
 

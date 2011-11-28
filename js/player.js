@@ -5,10 +5,10 @@
     this.controls = {};
     this.layers = [];
     this.render();
+    this.bind();
 
     this.radius = this.width/2 - 3;
     this.center = this.width/2;
-
 
     $.extend(soundManager, this.soundManager);
 
@@ -28,6 +28,7 @@
     height : 400,
     fadeInSpeed : 100,
     fadeOutSpeed : 100,
+    sound : null,
     init : [],
     render : function() {
       this.el = $('<div></div>');
@@ -39,18 +40,41 @@
       this.el.trigger('resize', width);
     },
 
-    load : function(id) {
+    bind : function() {
+      $('.unselectable', this.el).live('dragstart', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      });
+    },
+
+    onTrackInfo : function(o, fn) {
+      var that = this;
+      this.el.trigger('trackinfo', o);
+      this.createSound(o, function() {
+        that.el.trigger('loaded');
+        if (fn) {
+          fn();
+        }
+      });
+    },
+
+    load : function(id, fn) {
+      if (this.sound) {
+        sound.destruct();
+        sound = null;
+      }
+
       var that = this;
       this.el.trigger('loading');
       if (typeof id === 'number') {
         this.track = id;
 
-
         $.ajax({
           url      : 'http://api.soundcloud.com/tracks/' + this.track + '.json?client_id=' + this.soundcloud.key,
           dataType : $.support.cors ? 'json' : 'jsonp',
           success  : function(o) {
-            that.el.trigger('trackinfo', o);
+            that.onTrackInfo(o);
           }
         });
 
@@ -60,10 +84,33 @@
           url      : 'http://api.soundcloud.com/resolve.json?client_id=' + this.soundcloud.key + '&url=' + id,
           dataType : 'jsonp',
           success  : function(o) {
-            that.el.trigger('trackinfo', o);
+            that.onTrackInfo(o);
           },
         });
       }
+    },
+
+    createSound : function(o, fn) {
+      var that = this;
+      soundManager.onready(function() {
+        that.sound = soundManager.createSound({
+          id : 'soundcloud-sound',
+          url: o.stream_url + '?client_id=' + that.soundcloud.key,
+          autoLoad: true,
+          autoPlay: false,
+          stream : true,
+          whileloading : function() {
+            that.el.trigger('buffering', { value : this.bytesLoaded, total: this.bytesTotal });
+          },
+          onfinish : function() {
+            that.el.trigger('finished');
+          }
+        });
+        that.sound.meta = o;
+        if (fn) {
+          fn();
+        }
+      });
     },
 
     tick : function() {
