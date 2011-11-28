@@ -2,105 +2,20 @@
 <head>
   <title>player test</title>
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
-  <style>
-    #playerInfoText{
-      font-family: Aldrich, helvetica,arial;
-      position: absolute;
-      text-align: center;
-      z-index: 4;
-      color: #ffffff;
-      width: 300px;
-      font-size:30px;
-      display:none;
-    }
-
-    #player-container {
-      position: absolute;
-      width: 1000px;
-      height: 1000px;
-    }
-
-    #controls {
-      display:none;
-    }
-
-    #controls img{
-
-      position: absolute;
-      z-index : 3;
-      left: 0px;
-      top: 0px;
-    }
-
-    .unselectable{
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    #volume {
-      position:absolute;
-      z-index:4;
-      display:none;
-      width: 50px;
-      height: 20px;
-      background-color: transparent;
-      cursor: pointer;
-    }
-
-    #volume .bar {
-      display:block;
-      float:left;
-      width: 3px;
-      margin:0px;
-      margin-left: 2px;
-      height: 20px;
-      bottom:16px;
-      background: white;
-      cursor: pointer;
-    }
-
-    #volume .bar.active {
-      background-color: #C3000D;
-    }
-
-    body {
-      background : #000;
-    }
-  </style>
+  <link href='css/core.css' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
+  <script type="text/javascript" src="/js/player.js"></script>
+  <script type="text/javascript" src="/js/progress.js"></script>
+  <script type="text/javascript" src="/js/waveform.js"></script>
+  <script type="text/javascript" src="/js/overlay.js"></script>
 
 </head>
 <body>
-  <div id="player-container">
-    <canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
-    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas>
-    <div class="unselectable" id='playerInfoText'>
-      linking error
-    </div>
-    <div id="controls">
-      <img class="unselectable play" src="img/play_balanced.png"/>
-      <img class="unselectable pause" src="img/pause.png" />
-    </div>
-    <div id="volume" class="unselectable">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-  </div>
-    <script type="text/javascript">
-    soundManager.url = '/sm2/swf/';
-    soundManager.flashVersion = 9;
-    soundManager.useFlashBlock = false;
-  </script>
+  <div id="player"></div>
+    <!--canvas id='player' style="position:absolute; z-index: 2; top:0; left: 0px"></canvas>
+    <canvas id='progress' style="position:absolute; z-index: 1; top:0px; left: 0px"></canvas-->
+
   <script type="text/javascript">
     $(function() {
 
@@ -110,30 +25,37 @@
         return false;
       });
 
-      //WIDTH ENTRY/////////////////////
-      var w = 300;
-      var h = w;
-      var offset=w*0.1;
-      var center = w/2;
-      var client_id = 'bc73a3deaf438619d689a1100a066ce1';
-      var track_id = 29062695
+      var player = window.player = new Player({
+        selector      : '#player',
+        soundcloud    : {
+          key : 'bc73a3deaf438619d689a1100a066ce1',
+          parts : 600
+        },
+        soundManager  : {
+          url : '/sm2/swf/',
+          flashVersion : 9,
+          useFlashBlock : false
+        }
+      });
+      console.log(player.el)
+      player.load(29062695);
+/*
       $('#player-container').css({
-        width:w,
-        height:h
+        width:player.width,
+        height:player.width
       });
 
-      var parts = 1600;
       var canvas = $('#player')[0];
       var progress = $('#progress')[0];
-      canvas.width = w;
-      canvas.height = h;
-      progress.width = w;
-      progress.height = h;
+      canvas.width = player.width;
+      canvas.height = player.width;
+      progress.width = player.width;
+      progress.height = player.width;
 
       var ctx = canvas.getContext('2d');
       var pctx = progress.getContext('2d');
-      var waveheight = w/6;
-      var radius = w/2-3;
+      var waveheight = player.width/6;
+
 
       $.ajax({
         url      : 'http://api.soundcloud.com/tracks/' + track_id + '.json?client_id=' + client_id,
@@ -143,13 +65,15 @@
         complete : function() {
         },
         success  : function(o) {
-          var matches = o.title.match(/(^.*) - (.*)/);
+          var matches = o.title.match(/((^.*) - )?(.*)/);
           var artist = o.user.username;
-          if (matches[1]) {
-            artist = matches[1];
+          var title = o.title;
+          if (matches[2]) {
+            artist = matches[2];
+            title = matches[3];
           }
 
-          $('#playerInfoText').html(artist + '<br />' + matches[2]);
+          $('#playerInfoText').html(artist + '<br />' + title);
           $('#playerInfoText').fadeIn();
           $('#volume').fadeIn();
           $('#volume .bar').css('opacity', 0.9);
@@ -229,7 +153,7 @@
             var volumeWidth = $('#volume').width();
             var volumeOffset = $('#volume').offset();
 
-            var presentVolume = function(volume) {
+            var updateVolume = function(volume) {
               $('#volume .bar').each(function(k) {
                 if (k<volume/10) {
                   $(this).addClass('active');
@@ -243,11 +167,11 @@
               var x = e.clientX - (volumeOffset.left - window.scrollX);
               var volume = (x/volumeWidth)*100;
               sound.setVolume(volume);
-              presentVolume(volume);
+              updateVolume(volume);
               return false;
             };
 
-            presentVolume(sound.volume);
+            updateVolume(sound.volume);
 
             var animateVolume = function() {
               if (!$(this).is('.animating')) {
@@ -320,56 +244,6 @@
         }
       });
 
-      function updatePercent(percent, bufferPercent) {
-        percent+=0.1;
-        progress.width = 0;
-        progress.width = w;
-        pctx.save();
-          if (bufferPercent) {
-            pctx.save();
-              pctx.beginPath();
-              pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.7, -Math.PI*.5, ((bufferPercent/100) * (Math.PI*2)) -Math.PI*.5, false);
-              pctx.lineTo(0, 0);
-              pctx.closePath();
-              pctx.fillStyle = "#b0b0b0";
-              pctx.fill();
-            pctx.restore();
-          }
-
-          if (percent > 0) {
-            pctx.save();
-              pctx.beginPath();
-              pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.0982, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
-              pctx.lineTo(0, 0);
-              pctx.closePath();
-              pctx.fillStyle = "#C3000D";
-              pctx.fill();
-            pctx.restore();
-          }
-
-          if (percent > 0) {
-            pctx.save();
-              pctx.beginPath();
-              pctx.translate(center, center);
-              pctx.arc(0,0, radius/1.7, -Math.PI*.5, ((percent/100) * (Math.PI*2)) -Math.PI*.5, false);
-              pctx.lineTo(0, 0);
-              pctx.fillStyle = "rgba(1, 1, 1, 0.5)";
-              pctx.fill();
-              pctx.closePath();
-            pctx.restore();
-          }
-
-          pctx.beginPath();
-          pctx.arc(center,center, (radius/1.80), 0, Math.PI*2, true);
-          pctx.closePath();
-          pctx.fillStyle = "black";
-          pctx.fill();
-        pctx.restore();
-      }
-      updatePercent(0);
-
       $('#controls .play').css({ width : offset, height : offset});
       $('#controls .play').css({
         left  : center - $('#controls .play').width()/2,
@@ -380,7 +254,7 @@
         left  : center - $('#controls .pause').width()/2,
         top   : center - $('#controls .pause').height()/2
       })
-
+*/
     });
   </script>
 </body>

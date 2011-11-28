@@ -1,0 +1,72 @@
+#playerInfoText{
+  font-family: Aldrich, helvetica,arial;
+  position: absolute;
+  text-align: center;
+  z-index: 4;
+  color: #d0d0d0;
+  width: 300px;
+  font-size:30px;
+  display:none;
+  cursor: default;
+}
+#playerInfoText:hover {
+  color: #fff;
+}
+
+.container {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+}
+
+.layer {
+  position:absolute;
+}
+
+#controls {
+  display:none;
+}
+
+#controls img{
+
+  position: absolute;
+  z-index : 3;
+  left: 0px;
+  top: 0px;
+}
+
+.unselectable{
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#volume {
+  position:absolute;
+  z-index:4;
+  display:none;
+  width: 50px;
+  height: 20px;
+  background-color: transparent;
+  cursor: default;
+}
+
+#volume .bar {
+  display:block;
+  float:left;
+  width: 3px;
+  margin:0px;
+  margin-left: 2px;
+  height: 20px;
+  bottom:16px;
+  background: white;
+  cursor: default;
+}
+
+#volume .bar.active {
+  background-color: #C3000D;
+}
+
+body {
+  background : #f0f;
+}
