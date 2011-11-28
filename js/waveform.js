@@ -66,7 +66,7 @@
         ctx.save();
         ctx.rotate(i * 360/this.slices *2 * Math.PI/180);
         ctx.translate(0, -this.player.radius/1.15);
-        ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, this.height, 0, 0, slicewidth* 1.8, this.height/2);
+        ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, 140, 0, 0, slicewidth*2.1, this.height);
         ctx.restore();
       }
 

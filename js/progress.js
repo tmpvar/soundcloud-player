@@ -74,7 +74,7 @@
       }
 
       pctx.beginPath();
-      pctx.arc(this.player.center, this.player.center, (this.player.radius*.85), 0, Math.PI*2, true);
+      pctx.arc(this.player.center, this.player.center, (this.player.radius*.90), 0, Math.PI*2, true);
       pctx.closePath();
       pctx.fillStyle = "black";
       pctx.fill();
