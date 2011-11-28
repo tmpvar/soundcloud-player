@@ -12,7 +12,8 @@
     percentBuffered : 0,
     render: function() {
       this.el = $('<canvas></canvas>');
-
+      this.el.addClass('layer');
+      this.el.addClass('progress')
       this.el.attr('width', this.player.width);
       this.el.attr('height', this.player.height);
 
@@ -64,9 +65,7 @@
             pctx.fillStyle = "#C3000D";
             pctx.fill();
           pctx.restore();
-        }
 
-        if (this.percentPlayed > 0) {
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);

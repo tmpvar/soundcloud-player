@@ -1,39 +1,47 @@
-#playerInfoText{
-  font-family: Aldrich, helvetica,arial;
-  position: absolute;
-  text-align: center;
-  z-index: 4;
-  color: #d0d0d0;
-  width: 300px;
-  font-size:30px;
-  display:none;
-  cursor: default;
-}
-#playerInfoText:hover {
-  color: #fff;
-}
-
 .container {
   position: absolute;
   width: 1000px;
   height: 1000px;
 }
 
-.layer {
-  position:absolute;
-}
+  .container .track-info {
+    font-family: Aldrich, helvetica,arial;
+    position: absolute;
+    text-align: center;
+    z-index: 150;
+    color: #d0d0d0;
+    width: 300px;
+    font-size:30px;
+    display:none;
+    cursor: default;
+  }
 
-#controls {
-  display:none;
-}
+  .container .track-info:hover {
+    color: #fff;
+  }
 
-#controls img{
+  .container .layer {
+    position:absolute;
+  }
 
-  position: absolute;
-  z-index : 3;
-  left: 0px;
-  top: 0px;
-}
+  .container .layer.progress {
+    z-index: 100;
+  }
+
+  .container .layer.waveform {
+    z-index: 101;
+  }
+
+  .container .controls {
+    display:none;
+  }
+
+  .container .controls img{
+    position: absolute;
+    z-index : 120;
+    left: 0px;
+    top: 0px;
+  }
 
 .unselectable{
   -moz-user-select: none;

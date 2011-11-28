@@ -6,6 +6,8 @@
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
   <script type="text/javascript" src="/js/player.js"></script>
+  <script type="text/javascript" src="/js/info.js"></script>
+  <script type="text/javascript" src="/js/play.js"></script>
   <script type="text/javascript" src="/js/progress.js"></script>
   <script type="text/javascript" src="/js/waveform.js"></script>
   <script type="text/javascript" src="/js/overlay.js"></script>
@@ -28,8 +30,8 @@
       var player = window.player = new Player({
         selector      : '#player',
         soundcloud    : {
-          key : 'bc73a3deaf438619d689a1100a066ce1',
-          parts : 600
+          key    : 'bc73a3deaf438619d689a1100a066ce1',
+          slices : 600
         },
         soundManager  : {
           url : '/sm2/swf/',
@@ -37,44 +39,11 @@
           useFlashBlock : false
         }
       });
-      console.log(player.el)
       player.load(29062695);
+
 /*
-      $('#player-container').css({
-        width:player.width,
-        height:player.width
-      });
 
-      var canvas = $('#player')[0];
-      var progress = $('#progress')[0];
-      canvas.width = player.width;
-      canvas.height = player.width;
-      progress.width = player.width;
-      progress.height = player.width;
-
-      var ctx = canvas.getContext('2d');
-      var pctx = progress.getContext('2d');
-      var waveheight = player.width/6;
-
-
-      $.ajax({
-        url      : 'http://api.soundcloud.com/tracks/' + track_id + '.json?client_id=' + client_id,
-        dataType : $.support.cors ? 'json' : 'jsonp',
-        error : function() {
-        },
-        complete : function() {
-        },
         success  : function(o) {
-          var matches = o.title.match(/((^.*) - )?(.*)/);
-          var artist = o.user.username;
-          var title = o.title;
-          if (matches[2]) {
-            artist = matches[2];
-            title = matches[3];
-          }
-
-          $('#playerInfoText').html(artist + '<br />' + title);
-          $('#playerInfoText').fadeIn();
           $('#volume').fadeIn();
           $('#volume .bar').css('opacity', 0.9);
           $('#controls img').hide();
@@ -118,32 +87,6 @@
 
 
             var played = false;
-            var play = function() {
-              $('#controls .play').hide();
-              $('#controls .pause').show();
-              if (!played) {
-                soundObject.play();
-                played = true;
-              } else {
-                soundObject.resume();
-              }
-              return false;
-            };
-
-            var pause = function () {
-              $('#controls .play').show();
-              $('#controls .pause').hide();
-
-              if (played) {
-                soundObject.pause();
-              }
-              return false;
-            };
-
-            $('#controls .pause').bind('click', pause);
-            $('#controls .play').bind('click', play);
-
-            pause();
 
             $('#volume').css({
               left  : center-$('#volume').width()/2,
@@ -199,61 +142,10 @@
             });
           });
 
-          var waveform = new Image();
-          waveform.onload = function() {
-            ctx.translate(center, center);
 
-            ctx.fillStyle = "black";
-            ctx.globalCompositeOperation = 'destination-in';
-            var width = waveform.width/parts;
-
-
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.beginPath();
-            ctx.arc(0,0, (radius*.85), 0, Math.PI*2, true);
-            ctx.closePath();
-            ctx.fillStyle = "black";
-            ctx.fill();
-
-            ctx.globalCompositeOperation = 'destination-out';
-
-            for (var i=0; i<parts/2; i++) {
-              ctx.save();
-              ctx.rotate(i * 360/parts *2 * Math.PI/180);
-              ctx.translate(0, -radius/1.15);
-              ctx.drawImage(waveform, i*width, 0, width, waveheight, 0, 0, width* 1.8, waveheight/2);
-              ctx.restore();
-            }
-
-            ctx.globalCompositeOperation = 'source-out';
-            ctx.beginPath();
-            ctx.arc(0,0, (radius*.9), 0, Math.PI*2, true);
-            ctx.closePath();
-            ctx.fillStyle = "#f6f6f6";
-            ctx.fill();
-
-          };
-          waveform.src = o.waveform_url;
-          $('#playerInfoText').css('width', radius/1.4);
-          $('#playerInfoText').css({
-            left  : center-$('#playerInfoText').width()/2,
-            top   : center-radius/2.25,
-            "font-size": radius/12,
-            "line-height": radius/135
-          });
         }
       });
 
-      $('#controls .play').css({ width : offset, height : offset});
-      $('#controls .play').css({
-        left  : center - $('#controls .play').width()/2,
-        top   : center - $('#controls .play').height()/2
-      });
-       $('#controls .pause').css({ width : offset , height: offset});
-      $('#controls .pause').css({
-        left  : center - $('#controls .pause').width()/2,
-        top   : center - $('#controls .pause').height()/2
-      })
 */
     });
   </script>

@@ -26,6 +26,8 @@
   Player.prototype = {
     width : 400,
     height : 400,
+    fadeInSpeed : 100,
+    fadeOutSpeed : 100,
     init : [],
     render : function() {
       this.el = $('<div></div>');
@@ -38,11 +40,29 @@
     },
 
     load : function(id) {
+      var that = this;
       this.el.trigger('loading');
       if (typeof id === 'number') {
         this.track = id;
+
+
+        $.ajax({
+          url      : 'http://api.soundcloud.com/tracks/' + this.track + '.json?client_id=' + this.soundcloud.key,
+          dataType : $.support.cors ? 'json' : 'jsonp',
+          success  : function(o) {
+            that.el.trigger('trackinfo', o);
+          }
+        });
+
       } else {
         // find the track via the resolver
+        $.ajax({
+          url      : 'http://api.soundcloud.com/resolve.json?client_id=' + this.soundcloud.key + '&url=' + id,
+          dataType : 'jsonp',
+          success  : function(o) {
+            that.el.trigger('trackinfo', o);
+          },
+        });
       }
     },
 
