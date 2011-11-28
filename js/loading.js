@@ -60,13 +60,13 @@
         this.stepper = setInterval(function() {
           that.sliceStep();
         }, this.nextSlice);
-        that.el.show();
+        that.el.fadeIn();
         this.stop = false;
       });
 
       this.player.el.bind('loaded', function() {
         clearInterval(that.stepper);
-        that.el.fadeOut();
+        that.el.fadeOut(700);
       });
     },
     tick : function() {
@@ -93,7 +93,7 @@
           //if (current === this.currentSlice) {
           slice.height+=slice.direction;
 
-          height = (this.player.radius/1.3)+slice.height;
+          height = (this.player.width-this.player.radius)/2+slice.height;
           if (slice.height >= slice.max) {
             console.log('reverse');
             slice.direction = -this.speed;

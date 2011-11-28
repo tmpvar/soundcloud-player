@@ -27,8 +27,12 @@
         that.percentBuffered = (data.value/data.total) * 100;
       });
 
+      this.player.el.bind('loading', function() {
+        that.el.fadeOut();
+      });
+
       this.player.el.bind('soundmanager:ready', function() {
-        that.el.show();
+        that.el.fadeIn(700);
       });
 
       this.player.el.bind('playing', function(e, data) {

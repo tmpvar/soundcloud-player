@@ -100,6 +100,7 @@
           autoLoad: true,
           autoPlay: false,
           stream : true,
+          volume: 70,
           whileloading : function() {
             that.el.trigger('buffering', { value : this.bytesLoaded, total: this.bytesTotal });
           },

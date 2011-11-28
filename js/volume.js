@@ -24,13 +24,17 @@
         left  : this.player.center-this.el.width()/2,
         top   : this.player.center+this.player.radius/3.25
       });
+
+
     },
     bind : function() {
       var that = this;
-      this.player.el.bind('soundmanager:ready', function() {
+      this.player.el.bind('loaded', function() {
         that.el.css('display', 'block');
         that.el.css('opacity', 0.9);
+        that.update(that.player.sound.volume);
       });
+
 
       var move = function(e) {
         var
