@@ -67,6 +67,7 @@
 
       this.player.el.bind('loaded', function() {
         clearInterval(that.stepper);
+        that.currentSlice = 0;
         that.el.fadeOut(700);
       });
     },
