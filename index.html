@@ -3,7 +3,7 @@
   <title>player test</title>
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <link href='css/core.css' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
   <script type="text/javascript" src="/js/player.js"></script>
   <script type="text/javascript" src="/js/info.js"></script>
@@ -57,7 +57,13 @@
         return false;
       });
 
-      $('#playlist a:first').click()
+      player.el.bind('finished', function() {
+        $('#playlist a.active').parent().next('li').find('a').click()
+      });
+
+      $(window).load(function() {
+        $('#playlist a:first').click();
+      });
 
 
     });

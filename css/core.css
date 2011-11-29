@@ -83,12 +83,11 @@
 
 .ui-box {
   padding: 10px;
-
   font-family: Aldrich, helvetica,arial;
   border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-  border: 1px solid #5A6D7D;
+  border: 1px solid #606060;/*#5A6D7D;*/
   box-shadow:2px 2px 5px #000000;
   background-color: transparent;
   position:absolute;
@@ -128,6 +127,7 @@
   top:10px;
   left: 500px;
   min-width: 100px;
+  max-height: 500px;
 }
 
 
@@ -142,9 +142,7 @@
     padding:0px;
     list-style: none;
     white-space:nowrap;
-
     padding: 3px 0px 0px 0px;
-
   }
 
   #playlist li a, .ui-box .content {
