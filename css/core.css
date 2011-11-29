@@ -95,39 +95,41 @@
   position:absolute;
   background-color: #202020;
   opacity: .7;
+  overflow: hidden;
+}
+
+.scroller::-webkit-scrollbar {
+  height: 9px;
+   -webkit-border-radius: 1ex;
+  opacity: 0.7;
+}
+
+.scroller::-webkit-scrollbar-track {
+  margin-top: -2px;
+  height: 16px;
+  background:#1a1a1a;
+  border-top: 2px solid #1a1a1a;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+  border-top: 1px solid #blue;
+  background: #101010;
+  -webkit-border-radius: 2px;
 }
 
 #playlist  {
   right:10px;
   top:10px;
   left: 500px;
-  overflow: auto;
+
+  min-width: 100px;
 }
 
-  #playlist::-webkit-scrollbar {
-    height: 9px;
-     -webkit-border-radius: 1ex;
-    opacity: 0.7;
-  }
-
-
-  #playlist::-webkit-scrollbar-track {
-    margin-top: -2px;
-    height: 16px;
-    background:#1a1a1a;
-    border-top: 2px solid #1a1a1a;
-  }
-
-  #playlist::-webkit-scrollbar-thumb {
-    border-top: 1px solid #blue;
-    background: #8DA9C0;
-    -webkit-border-radius: 3px;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
-  }
 
   #playlist ul{
     margin: 5px 0 0 0;
     padding:0;
+    overflow: auto;
 
   }
   #playlist li {
