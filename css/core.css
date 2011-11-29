@@ -83,8 +83,7 @@
 
 .ui-box {
   padding: 10px;
-  color: white;
-  font-size:16px;
+
   font-family: Aldrich, helvetica,arial;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -96,6 +95,13 @@
   background-color: #202020;
   opacity: .7;
   overflow: hidden;
+}
+
+.ui-box .heading {
+  margin:0px;
+  text-shadow:2px 2px 1px #101010;
+  color: white;
+  font-size:16px;
 }
 
 .scroller::-webkit-scrollbar {
@@ -121,7 +127,6 @@
   right:10px;
   top:10px;
   left: 500px;
-
   min-width: 100px;
 }
 
@@ -138,7 +143,7 @@
     list-style: none;
     white-space:nowrap;
 
-    padding: 2px 0px 0px 0px;
+    padding: 3px 0px 0px 0px;
 
   }
 
@@ -147,6 +152,7 @@
     font-size: 14px;
     color: #a0a0a0;
     text-decoration:none;
+    text-shadow:2px 2px 1px #101010;
   }
 
   #playlist .active {
