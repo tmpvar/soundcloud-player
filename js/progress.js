@@ -5,6 +5,7 @@
     this.render();
     this.bind();
     player.layers.push(this);
+    this.theme = player.theme.progress;
   }
 
   Progress.prototype = {
@@ -76,7 +77,7 @@
       pctx.beginPath();
       pctx.arc(this.player.center, this.player.center, (this.player.radius/1.15), 0, Math.PI*2, true);
       pctx.closePath();
-      pctx.fillStyle = "black";
+      pctx.fillStyle = this.theme.background;
       pctx.fill();
 
       pctx.save();
@@ -84,10 +85,10 @@
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0,0, this.player.radius/1.7, -Math.PI*.5, ((this.percentBuffered/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0,0, this.theme.buffering.radius, -Math.PI*.5, ((this.percentBuffered/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
-            pctx.fillStyle = "#b0b0b0";
+            pctx.fillStyle = this.theme.buffering.color;
             pctx.fill();
           pctx.restore();
         }
@@ -96,28 +97,28 @@
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0,0, this.player.radius/1.159, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0,0, this.theme.playing.radius, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
             pctx.closePath();
-            pctx.fillStyle = "#11db11";
+            pctx.fillStyle = this.theme.playing.color;
             pctx.fill();
           pctx.restore();
 
           pctx.save();
             pctx.beginPath();
             pctx.translate(this.player.center, this.player.center);
-            pctx.arc(0, 0, this.player.radius/1.7, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
+            pctx.arc(0, 0, this.theme.bufferOverlay.radius, -Math.PI*.5, ((position/100) * (Math.PI*2)) -Math.PI*.5, false);
             pctx.lineTo(0, 0);
-            pctx.fillStyle = "rgba(1, 1, 1, 0.5)";
+            pctx.fillStyle = this.theme.bufferOverlay.color;
             pctx.fill();
             pctx.closePath();
           pctx.restore();
         }
 
         pctx.beginPath();
-        pctx.arc(this.player.center, this.player.center, (this.player.radius/1.80), 0, Math.PI*2, true);
+        pctx.arc(this.player.center, this.player.center, this.theme.inner.radius, 0, Math.PI*2, true);
         pctx.closePath();
-        pctx.fillStyle = "black";
+        pctx.fillStyle = this.theme.inner.color;
         pctx.fill();
       pctx.restore();
     }

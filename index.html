@@ -46,21 +46,37 @@
         },
         theme : {
           progress : {
-
+            background : 'black',
+            buffering : { // buffer bar
+              radius: 115,
+              color : "#b0b0b0"
+            },
+            playing : {
+              radius: 196, // waveform highlighter height
+              color: "#11db11"
+            },
+            bufferOverlay : { // buffer bar overlay
+              radius: 115,
+              color : "rgba(1, 1, 1, 0.5)"
+            },
+            inner : { // innermost circle
+              radius : 110,
+              color : 'black'
+            }
           },
           waveform : {
-            slices : 600,
-            height : 80,
-            offset : 195,
-            color  : "rgba(0,0,0,1)",
-            background : "rgba(255,255,255,1)",
-            replace : 'white',
+            slices : 600, // number of slices to cut the sound cloud wave form into
+            height : 80, // height of the waveform to render
+            offset : 195, // translate this far off of the center
+            color  : "rgba(0,0,0,1)", // color of the waveform
+            background : "rgba(255,255,255,1)", // color behind the waveform
+            replace : 'white', // initial color that the waveform replaces
             compositeOperations : {
-              replace : 'source-over',
-              background : 'source-out',
+              replace : 'source-over', // bottom of the stack
+              background : 'source-out', // replace the waveform
               slice : 'destination-out',
             },
-            outerWidth: 5
+            outerWidth: 5 // skew the waveform slice so it is bigger on the outside of the circle
           },
           loading : {
             color : '#000', // slice color
