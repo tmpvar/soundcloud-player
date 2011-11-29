@@ -14,6 +14,7 @@
       this.el.append('<img class="unselectable pause" src="img/pause.png" />');
       $('img', this.el).hide();
       this.player.el.append(this.el);
+      this.el.hide();
     },
     position: function() {
       var
@@ -49,7 +50,7 @@
       this.player.el.bind('loading', function() {
         paused = false;
         $('.pause', that.el).hide();
-        $('.play', that.el).show();
+        $('.play', that.el).hide();
         that.el.fadeIn(player.fadeInSpeed);
       });
 

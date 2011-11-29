@@ -74,7 +74,7 @@
           url      : 'http://api.soundcloud.com/tracks/' + this.track + '.json?client_id=' + this.soundcloud.key,
           dataType : $.support.cors ? 'json' : 'jsonp',
           success  : function(o) {
-            that.onTrackInfo(o);
+            that.onTrackInfo(o, fn);
           }
         });
 
@@ -84,7 +84,7 @@
           url      : 'http://api.soundcloud.com/resolve.json?client_id=' + this.soundcloud.key + '&url=' + id,
           dataType : 'jsonp',
           success  : function(o) {
-            that.onTrackInfo(o);
+            that.onTrackInfo(o, fn);
           },
         });
       }

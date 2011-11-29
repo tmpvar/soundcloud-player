@@ -81,7 +81,7 @@
           ctx.arc(0,0, this.player.radius/2, -Math.PI*.5, (Math.PI*2), false);
           ctx.lineTo(0, 0);
           ctx.closePath();
-          ctx.fillStyle = "#C3000D";
+          ctx.fillStyle = "#000";
           ctx.fill();
         ctx.restore();
 
@@ -111,7 +111,7 @@
             ctx.arc(0,0, height, -Math.PI*.5, ((((360/this.sliceCount)/360) * Math.PI*2) -Math.PI*.5) + .1, false);
             ctx.lineTo(0, 0);
             ctx.closePath();
-            ctx.fillStyle = '#C3000D';
+            ctx.fillStyle = '#000';
             ctx.fill();
           ctx.restore();
         }

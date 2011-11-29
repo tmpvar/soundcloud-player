@@ -10,7 +10,6 @@
     z-index: 150;
     color: #d0d0d0;
     width: 300px;
-    font-size:30px;
     display:none;
     cursor: default;
   }
@@ -82,6 +81,89 @@
   user-select: none;
 }
 
+.ui-box {
+  padding: 10px;
+  color: white;
+  font-size:16px;
+  font-family: Aldrich, helvetica,arial;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border: 1px solid #5A6D7D;
+  box-shadow:2px 2px 5px #000000;
+  background-color: transparent;
+  position:absolute;
+  background-color: #202020;
+  opacity: .7;
+}
+
+#playlist  {
+  right:10px;
+  top:10px;
+  left: 500px;
+  overflow: auto;
+}
+
+  #playlist::-webkit-scrollbar {
+    height: 9px;
+     -webkit-border-radius: 1ex;
+    opacity: 0.7;
+  }
+
+
+  #playlist::-webkit-scrollbar-track {
+    margin-top: -2px;
+    height: 16px;
+    background:#1a1a1a;
+    border-top: 2px solid #1a1a1a;
+  }
+
+  #playlist::-webkit-scrollbar-thumb {
+    border-top: 1px solid #blue;
+    background: #8DA9C0;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+  }
+
+  #playlist ul{
+    margin: 5px 0 0 0;
+    padding:0;
+
+  }
+  #playlist li {
+    margin:0px;
+    padding:0px;
+    list-style: none;
+    white-space:nowrap;
+
+    padding: 2px 0px 0px 0px;
+
+  }
+
+  #playlist li a, .ui-box .content {
+    font-family: Aldrich, helvetica,arial;
+    font-size: 14px;
+    color: #a0a0a0;
+    text-decoration:none;
+  }
+
+  #playlist .active {
+    color: #11db11;
+  }
+
+#footer {
+  position: absolute;
+  display:block;
+  top: 500px;
+  bottom: 0;
+  width: 100%;
+  border-top: 2px solid #252525;
+  background-color: #1a1a1a;
+}
+
 body {
-  background : #abbbcd;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAHElEQVQIHWN0cHD4zwAFjIyMYNa/f/8YYGwYDQB7jgTEUlYfBwAAAABJRU5ErkJggg==') #404040;
+  padding: 0;
+  margin: 0;
+  overflow:hidden;
 }

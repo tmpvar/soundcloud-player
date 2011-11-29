@@ -35,7 +35,7 @@
         that.el.css({
           left          : that.player.center-that.el.width()/2,
           top           : that.player.center-that.player.radius/2.25,
-          "font-size"   : that.player.radius/16,
+          "font-size"   : that.player.radius/17,
           "line-height" : that.player.radius/175
         });
         that.el.fadeIn(player.fadeInSpeed);

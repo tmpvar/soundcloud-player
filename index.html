@@ -16,14 +16,27 @@
 
 </head>
 <body>
-  <div id="player"></div>
+  <div id="player" class='ui-box'></div>
+
+  <div id="playlist" class="ui-box">
+    Playlist
+    <ul>
+      <li><a href="http://soundcloud.com/bio-puppet/dark-clouds">Bio-Puppet - Dark Clouds</a></li>
+      <li><a href="http://soundcloud.com/tmpvar/052911-4">tmpvar - 052911-4</a></li>
+      <li><a href="http://soundcloud.com/hedmuk/legend4ry-hedmuk-exclusive-mix">Legend4ry - Hedmuk Exclusive Mix</a></li>
+    </li>
+  </div>
+
+  <div id="info" class="ui-box">
+
+  </div>
 
   <script type="text/javascript">
     $(function() {
       var player = window.player = new Player({
         selector      : '#player',
-        width : 600,
-        height: 600,
+        width : 400,
+        height: 400,
         soundcloud    : {
           key    : 'bc73a3deaf438619d689a1100a066ce1',
           slices : 600
@@ -34,8 +47,23 @@
           useFlashBlock : false
         }
       });
-      player.load(29062694);
+
+      $('#playlist a').live('click', function() {
+        $('#playlist .active').removeClass('active')
+        $(this).addClass('active')
+        player.load($(this).attr('href'), function() {
+          $('.play').trigger('mousedown');
+        });
+        return false;
+      });
+
+      $('#playlist a:first').click()
+
+
     });
   </script>
+  <div id="footer">
+  .
+  </div>
 </body>
 </html>
