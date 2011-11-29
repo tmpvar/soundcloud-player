@@ -95,7 +95,7 @@
       soundManager.onready(function() {
         that.el.trigger('soundmanager:ready');
         if (that.sound) {
-          this.sound.destruct();
+          that.sound.destruct();
         }
         that.sound = soundManager.createSound({
           id : 'soundcloud-sound',

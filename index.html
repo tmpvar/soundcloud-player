@@ -13,7 +13,6 @@
   <script type="text/javascript" src="/js/volume.js"></script>
   <script type="text/javascript" src="/js/waveform.js"></script>
   <script type="text/javascript" src="/js/overlay.js"></script>
-
 </head>
 <body>
   <div id="player"></div>
@@ -27,7 +26,7 @@
     </li>
   </div>
 
-  <div id="info" class="ui-box">
+  <div id="themes" class="ui-box">
 
   </div>
 
@@ -45,6 +44,21 @@
           url : '/sm2/swf/',
           flashVersion : 9,
           useFlashBlock : false
+        },
+        theme : {
+          loading : {
+            color : '#000', // slice color
+            slices: 50, // total number of slices
+            speed : 4, // fall speed of slices
+            rate : 16, // time between slice changes
+            fade : {
+              hide : 700, // time to fade in in ms
+              show : 100 // time to fade out in ms
+            },
+            slice : {
+              height : 75 // maximum height of a slice
+            }
+          }
         }
       });
 
@@ -64,8 +78,6 @@
       $(window).load(function() {
         $('#playlist a:first').click();
       });
-
-
     });
   </script>
   <div id="footer">
