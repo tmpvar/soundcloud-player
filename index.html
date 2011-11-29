@@ -38,7 +38,6 @@
         height: 400,
         soundcloud    : {
           key    : 'bc73a3deaf438619d689a1100a066ce1',
-          slices : 600
         },
         soundManager  : {
           url : '/sm2/swf/',
@@ -46,6 +45,23 @@
           useFlashBlock : false
         },
         theme : {
+          progress : {
+
+          },
+          waveform : {
+            slices : 600,
+            height : 80,
+            offset : 195,
+            color  : "rgba(0,0,0,1)",
+            background : "rgba(255,255,255,1)",
+            replace : 'white',
+            compositeOperations : {
+              replace : 'source-over',
+              background : 'source-out',
+              slice : 'destination-out',
+            },
+            outerWidth: 5
+          },
           loading : {
             color : '#000', // slice color
             slices: 50, // total number of slices

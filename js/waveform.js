@@ -7,12 +7,12 @@
     this.render();
     this.bind();
 
-    this.height = this.player.width/6;
-    this.slices = this.player.soundcloud.slices;
+    this.theme = this.player.theme.waveform;
+
+    player.layers.push(this);
   }
 
   Waveform.prototype = {
-    slices : 1800,
     dirty  : false,
     render : function() {
       this.el = $('<canvas></canvas>');
@@ -36,6 +36,7 @@
       this.player.el.bind('trackinfo', function(e, data) {
         // kick off a new image load
         that.img.onload = function() {
+          that.dirty = true;
           that.tick();
           that.player.el.trigger('waveform:loaded');
         };
@@ -45,35 +46,42 @@
     },
 
     tick : function() {
-      var ctx = this.ctx;
+      if (!this.dirty) {
+        return;
+      }
+      this.el.attr('width', 0);
+      this.el.attr('width', this.player.width);
+      this.el.attr('height', this.player.height);
+      var ctx = this.ctx, slices = this.theme.slices;
       ctx.save();
         ctx.translate(this.player.center, this.player.center);
-        var slicewidth = this.img.width/this.slices;
+        var slicewidth = this.img.width/this.theme.slices;
 
-        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalCompositeOperation = this.theme.compositeOperations.replace;
         ctx.beginPath();
         ctx.arc(0,0, (this.player.radius/1.05), 0, Math.PI*2, true);
         ctx.closePath();
-        ctx.fillStyle = "black";
+        ctx.fillStyle = this.theme.replace;
         ctx.fill();
 
-        ctx.globalCompositeOperation = 'destination-out';
+        ctx.globalCompositeOperation = this.theme.compositeOperations.slice;
 
-        for (var i=0; i<this.slices/2; i++) {
+        for (var i=0; i<slices; i++) {
           ctx.save();
-          ctx.rotate(i * 360/this.slices *2 * Math.PI/180);
-          ctx.translate(0, -this.player.radius/1.15);
-          ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, 140, 0, 0, slicewidth*2.1, this.height);
+          ctx.rotate(i * 360/slices * Math.PI/180);
+          ctx.translate(0, -this.theme.offset);
+          ctx.drawImage(this.img, i*slicewidth, 0, slicewidth, this.img.height/2, 0, 0, this.theme.outerWidth, this.theme.height);
           ctx.restore();
         }
 
-        ctx.globalCompositeOperation = 'source-out';
+        ctx.globalCompositeOperation = this.theme.compositeOperations.background;
         ctx.beginPath();
-        ctx.arc(0,0, (this.player.radius*.9), 0, Math.PI*2, true);
+        ctx.arc(0,0, (this.player.radius), 0, Math.PI*2, true);
         ctx.closePath();
-        ctx.fillStyle = "#f6f6f6";
+        ctx.fillStyle = this.theme.background;
         ctx.fill();
       ctx.restore();
+      this.dirty = false;
     }
   };
 
