@@ -47,7 +47,6 @@
     },
     sliceStep :function() {
       if (this.slices.length !== this.theme.slices) {
-        console.log(this.slices.length, this.theme.slices);
         this.slice();
       }
 
