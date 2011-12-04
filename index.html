@@ -161,7 +161,7 @@
       $('#playlist #buttons li').click(function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        window.location.replace(window.location.toString().replace(/#.*/, $(this).find('a').attr('href')));
+        window.location.hash = $(this).find('a').attr('href'));
         navigate();
 
         if ($(this).is('.playlist')) {
