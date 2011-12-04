@@ -10,6 +10,7 @@
     render : function() {
       this.el = $('<div></div>');
       this.el.addClass('controls');
+      this.el.addClass('unselectable');
       this.el.append('<img class="unselectable play" src="img/play_balanced.png"/>');
       this.el.append('<img class="unselectable pause" src="img/pause.png" />');
       $('img', this.el).hide();

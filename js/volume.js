@@ -1,9 +1,29 @@
 ;(function(proto) {
 
   function Volume(player) {
+    var that = this;
     this.player = player;
     this.render();
     this.bind();
+
+    player.volumeControl = function(v) {
+      if (typeof v !== 'undefined') {
+        v = parseInt(v, 10);
+        if (v < 0) {
+          v = 0;
+        } else if (v > 100) {
+          v = 100;
+        }
+        if (player.sound) {
+          player.sound.setVolume(v);
+        }
+        player.el.trigger('volume', v);
+        player.volume = v;
+        that.update(v);
+        return v;
+      }
+      return player.volume;
+    }
   }
 
   Volume.prototype = {

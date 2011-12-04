@@ -18,6 +18,10 @@
         that.el.fadeOut(player.fadeOutSpeed);
       });
 
+      this.player.el.bind('loaded', function() {
+        that.el.fadeIn(player.fadeInSpeed);
+      });
+
       this.player.el.bind('trackinfo', function(e, data) {
         var
         matches = data.title.match(/((^.*) - )?(.*)/),

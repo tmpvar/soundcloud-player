@@ -1,3 +1,8 @@
+
+#player {
+  margin: 40px 40px;
+}
+
 .container {
   position: absolute;
 
@@ -89,11 +94,9 @@
   -webkit-border-radius: 2px;
   border: 1px solid #606060;/*#5A6D7D;*/
   box-shadow:2px 2px 5px #000000;
-  background-color: transparent;
   position:absolute;
   background-color: #202020;
   opacity: .7;
-  overflow: hidden;
 }
 
 .ui-box .heading {
@@ -104,13 +107,13 @@
 }
 
 .scroller::-webkit-scrollbar {
-  height: 9px;
+  height: 16px;
    -webkit-border-radius: 1ex;
   opacity: 0.7;
 }
 
 .scroller::-webkit-scrollbar-track {
-  margin-top: -2px;
+
   height: 16px;
   background:#1a1a1a;
   border-top: 2px solid #1a1a1a;
@@ -123,48 +126,184 @@
 }
 
 #playlist  {
-  right:10px;
-  top:10px;
-  left: 500px;
-  min-width: 100px;
-  max-height: 500px;
+  right:135px;
+  top:40px;
+  left: 700px;
+  bottom: 35px;
+  min-width: 200px;
+  height: 600px;
+  border-right: 0;
 }
 
-
-  #playlist ul{
-    margin: 5px 0 0 0;
-    padding:0;
+  #playlist .content {
+    margin: 30px 30px 30px 30px;
     overflow: auto;
+    height: 543px;
 
   }
+
+  #playlist .heading {
+    border-bottom: 1px solid #505050;
+  }
+
+  #playlist ul{
+    margin:0;
+    padding: 5px;
+  }
   #playlist li {
+    cursor: pointer;
     margin:0px;
     padding:0px;
     list-style: none;
     white-space:nowrap;
-    padding: 3px 0px 0px 0px;
+    padding: 0px 0px 3px 0px;
   }
 
-  #playlist li a, .ui-box .content {
+   #playlist .content .playlist {
+    background-color: 000;
+    opacity: 1;
+   }
+
+  .playlist li a, .ui-box .content {
     font-family: Aldrich, helvetica,arial;
+    line-height: 20px;
     font-size: 14px;
-    color: #a0a0a0;
+    color: #fff;
     text-decoration:none;
     text-shadow:2px 2px 1px #101010;
   }
 
-  #playlist .active {
+  .playlist .active {
     color: #11db11;
   }
 
-#footer {
-  position: absolute;
-  display:block;
-  top: 500px;
-  bottom: 0;
-  width: 100%;
-  border-top: 2px solid #252525;
-  background-color: #1a1a1a;
+#buttons {
+  width: 125px;
+  right: -97px;
+  margin:0;
+  padding: 0;
+  border-width: 0px;
+  height: 622px;
+  top: -1px;
+  background-color: #505050;
+  opacity: .9;
+  font-size: 14px;
+  border-left: 1px solid #202020;
+}
+  #buttons ul {
+    margin-top: 10px;
+    padding:0;
+  }
+  #buttons ul li {
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    height: 30px;
+    line-height: 33px;
+    padding: 5px 0px 5px 5px;
+    margin: 0px 10px 10px 0px;
+
+    color: #fff;
+
+    border: 1px solid #808080;
+    border-left: none;
+    background-color: #4a4a4a;
+    opacity: 0.4;
+  }
+
+  #buttons ul li a {
+    text-decoration: none;
+    color: white;
+    opacity: 1;
+  }
+
+  #buttons ul li.selected {
+    background: #1a1a1a;
+    color: #fff;
+    opacity:1;
+  }
+
+.groups .group-name {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border: 1px solid #606060;/*#5A6D7D;*/
+  box-shadow:2px 2px 5px #000000;
+  height: 51px;
+  font-size: 30px;
+  outline: none;
+  opacity: .6;
+  position:absolute;
+  left: 30px;
+  top: 30px;
+  right: 115px;
+}
+
+.groups .add-group {
+  position:absolute;
+  font-size: 49px;
+  text-decoration: none;
+  top: 45px;
+  right: 60px;
+  color: green;
+  padding: 2px 5px 4px 5px;
+}
+
+.groups .group-name.error {
+  border: 2px solid red;
+}
+
+#playlist .groups .group-list, #playlist .groups .no-groups {
+  position:absolute;
+  top: 85px;
+  left: 30px;
+  right: 30px;
+  margin-right: 30px;
+  padding:0;
+}
+
+#playlist .groups .group-list li {
+  list-style:none;
+  font-size: 18px;
+  line-height: 32px;
+  padding-top:4px;
+  background: #101010;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #101010;/*#101010;*/
+  margin-top: 10px;
+  box-shadow:2px 2px 5px #000000;
+  opacity: 0.7;
+  overflow: hidden;
+}
+
+#playlist .groups .group-list li a {
+  color: white;
+  text-decoration: none;
+  padding: 5px;
+}
+
+#playlist .groups .group-list li a.remove {
+  color: red;
+  font-size: 24px;
+  line-height: 32px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #202020;/*#5A6D7D;*/
+  margin-left:4px;
+}
+
+#playlist .content .help, #playlist .content .about {
+  position:absolute;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
+  background: #000;
+  padding: 5px;
 }
 
 body {

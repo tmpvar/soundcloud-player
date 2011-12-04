@@ -31,12 +31,17 @@
     sound : null,
     init : [],
     render : function() {
-      this.el = $('<div></div>');
+      this.el = $(this.selector);
       this.el.addClass('container');
-      $(this.selector).append(this.el);
+      this.resize();
     },
-    resize : function(width) {
-      this.width = parseInt(width, 10);
+    resize : function(width, height) {
+      this.width = parseInt(width || this.width, 10);
+      this.height = parseInt(height || this.height, 10);
+      this.el.css({
+        width : this.width,
+        height: this.height
+      });
       this.el.trigger('resize', width);
     },
 
@@ -103,18 +108,22 @@
           autoLoad: true,
           autoPlay: false,
           stream : true,
-          volume: 70,
+          volume: that.volume,
           whileloading : function() {
             that.el.trigger('buffering', { value : this.bytesLoaded, total: this.bytesTotal });
           },
           onfinish : function() {
             that.el.trigger('finished');
+          },
+          whileplaying : function() {
+            that.el.trigger('playing', { value : this.position, total: o.duration })
           }
         });
         that.sound.meta = o;
         if (fn) {
           fn();
         }
+        that.el.trigger('sound:created');
       });
     },
 

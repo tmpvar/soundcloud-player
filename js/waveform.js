@@ -18,6 +18,7 @@
       this.el = $('<canvas></canvas>');
       this.el.addClass('layer');
       this.el.addClass('waveform')
+      this.el.addClass('unselectable')
       this.el.attr('width', this.player.width);
       this.el.attr('height', this.player.height);
 
@@ -37,8 +38,22 @@
         // kick off a new image load
         that.img.onload = function() {
           that.dirty = true;
-          that.tick();
-          that.player.el.trigger('waveform:loaded');
+          if (that.el) {
+            var el = that.el;
+            el.css('z-index', parseInt(el.css('z-index')) + 1);
+            that.render();
+            that.tick();
+            that.el.fadeIn(that.player.theme.loading.fade.show);
+
+            el.fadeOut(that.player.theme.loading.fade.hide, function() {
+              that.player.el.trigger('waveform:loaded');
+              el.remove();
+            });
+          } else {
+            that.tick();
+            that.el.fadeIn(that.player.theme.loading.fade.show);
+            that.player.el.trigger('waveform:loaded');
+          }
         };
 
         that.img.src = data.waveform_url + '?client_id=' + that.player.soundcloud.key;

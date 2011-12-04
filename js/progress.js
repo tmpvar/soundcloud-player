@@ -6,6 +6,15 @@
     this.bind();
     player.layers.push(this);
     this.theme = player.theme.progress;
+
+    player.progress = function(p) {
+      if (typeof p !== 'undefined') {
+        p = parseInt(p, 10);
+        player.sound.setPosition(p);
+        return p;
+      }
+      return player.sound.position;
+    }
   }
 
   Progress.prototype = {
@@ -14,7 +23,9 @@
     render: function() {
       this.el = $('<canvas></canvas>');
       this.el.addClass('layer');
-      this.el.addClass('progress')
+      this.el.addClass('progress');
+      this.el.addClass('unselectable');
+
       this.el.attr('width', this.player.width);
       this.el.attr('height', this.player.height);
 
@@ -29,10 +40,15 @@
       });
 
       this.player.el.bind('loading', function() {
+        that.el.stop(false, true)
         that.el.fadeOut();
       });
 
       this.player.el.bind('soundmanager:ready', function() {
+        that.el.fadeIn(700);
+      });
+
+      this.player.el.bind('loaded', function() {
         that.el.fadeIn(700);
       });
 
@@ -41,7 +57,10 @@
       });
 
       var scrub = function(e) {
-        var calculatedRadians = -Math.atan2(e.clientY - (that.player.center - window.scrollY), e.clientX - (that.player.center - window.scrollX));
+        var offset = $(e.target).offset();
+
+
+        var calculatedRadians = -Math.atan2(e.clientY - (that.player.center - window.scrollY) - offset.top, e.clientX - (that.player.center - window.scrollX) - offset.left);
         var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
         var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
         var percent = (360 - correctedDegrees)/360;
@@ -75,9 +94,9 @@
       }
 
       pctx.beginPath();
-      pctx.arc(this.player.center, this.player.center, (this.player.radius/1.15), 0, Math.PI*2, true);
+      pctx.arc(this.player.center, this.player.center, this.theme.background.radius, 0, Math.PI*2, true);
       pctx.closePath();
-      pctx.fillStyle = this.theme.background;
+      pctx.fillStyle = this.theme.background.color;
       pctx.fill();
 
       pctx.save();

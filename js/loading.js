@@ -30,7 +30,7 @@
       while(current--) {
         var slice = new Slice();
         slice.direction = -(this.theme.speed + (Math.random() * this.themespeed *2));
-        slice.max = this.theme.slice.height;
+        slice.max = this.theme.slice.radius;
         this.slices.push(slice);
       }
     },
@@ -61,6 +61,7 @@
     bind : function() {
       var that = this;
       this.player.el.bind('loading', function() {
+        that.el.stop(false, true);
         clearInterval(that.stepper);
         that.stepper = setInterval(function() {
           that.sliceStep();
@@ -71,7 +72,6 @@
 
       this.player.el.bind('loaded', function() {
         clearInterval(that.stepper);
-        that.currentSlice = 0;
         that.el.fadeOut(that.theme.fade.hide);
       });
     },
@@ -90,10 +90,10 @@
         ctx.save();
           ctx.beginPath();
           ctx.translate(centerX, centerY);
-          ctx.arc(0,0, this.player.radius/2, -Math.PI*.5, (Math.PI*2), false);
+          ctx.arc(0,0, this.theme.inner.radius, -Math.PI*.5, (Math.PI*2), false);
           ctx.lineTo(0, 0);
           ctx.closePath();
-          ctx.fillStyle = this.theme.color;
+          ctx.fillStyle = this.theme.inner.color;
           ctx.fill();
         ctx.restore();
 
@@ -114,11 +114,11 @@
             ctx.beginPath();
             ctx.translate(centerX, centerY);
             ctx.rotate(((current*((360/this.theme.slices)/360) * (Math.PI*2)) -Math.PI*.5));
-            ctx.lineTo(0, (this.player.radius/2)+slice.height);
-            ctx.arc(0,0, (width-this.player.radius)/2+slice.height, -Math.PI*.5, ((((360/this.theme.slices)/360) * Math.PI*2) -Math.PI*.5) + .1, false);
-            ctx.lineTo(0, 0);
+            ctx.lineTo(0, slice.height);
+            ctx.arc(0,0, slice.height, -Math.PI*.5, ((((360/this.theme.slices)/360) * Math.PI*2) -Math.PI*.5) + .1, false);
+            ctx.lineTo(0, this.theme.inner.radius);
             ctx.closePath();
-            ctx.fillStyle = this.theme.color;
+            ctx.fillStyle = this.theme.slice.color;
             ctx.fill();
           ctx.restore();
         }
