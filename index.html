@@ -230,8 +230,6 @@
         $('#playlist #buttons li.' + loc).addClass('selected');
       };
 
-      navigate();
-
       player.el.bind('finished', function() {
         $('#playlist .content a.active').parent().next('li').find('a').click()
       });
@@ -260,6 +258,7 @@
         appendGroup(group.name, group.unique, id)
       });
 
+      navigate();
 
       var updateCounts = function() {
         $('#buttons .groups .count').text($('.group-list li').length);
