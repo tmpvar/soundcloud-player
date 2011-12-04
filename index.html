@@ -77,7 +77,7 @@
 
   <script type="text/javascript">
     $(function() {
-      var storage = window.storage = JSON.parse(localStorage.getItem('state') || '{ "tracks" : {}, "groups" : [] }');
+      var storage = window.storage = JSON.parse(localStorage.getItem('state') || '{ "tracks" : [], "groups" : [] }');
 
       var save = function() {
         localStorage.setItem('state', JSON.stringify(storage));
@@ -86,7 +86,7 @@
       window.reset = function() {
         storage = {
           groups : {},
-          tracks : {}
+          tracks : []
         }
         save();
         window.location.reload();
@@ -241,20 +241,18 @@
         var groupId = parseInt($(this).next('a').attr('href').replace('#', ''), 10);
         delete storage.groups[groupId];
 
-        var tracks = {};
-        var length = 0;
-        $.each(storage.tracks, function(trackId, track) {
-          if (track.group !== groupId) {
-            length++;
-            tracks[trackId] = track;
-          } else {
+        storage.tracks = storage.tracks.filter(function(track) {
+          console.log(track.group, groupId)
+          if (track.group === groupId) {
             $('#playlist .playlist a[href="' + track.url + '"]').parent().remove();
+            return false;
           }
+          return true;
         });
-        if (length === 0) {
+
+        if (storage.tracks.length === 0) {
           $('.no-groups').fadeIn();
         }
-        storage.tracks = tracks;
         save();
 
         $(this).parent().remove();
@@ -339,12 +337,13 @@
           success: function(data) {
             for (var i=0, l=data.length; i<l; i++) {
               var exists = !!storage.tracks[data[i].id];
-              storage.tracks[data[i].id] = {
+              storage.tracks.push({
+                id: data[i].id,
                 url : data[i].permalink_url,
                 title : data[i].title,
                 username : data[i].user.username,
                 group : group_id
-              };
+              });
               if (!exists) {
                 appendTrack(data[i].permalink_url, data[i].title);
               }
@@ -397,8 +396,16 @@
       });
 
       $(window).load(function() {
-        if (storage.current && storage.tracks[storage.current]) {
-          $('#playlist a[href="' + storage.tracks[storage.current].url + '"]').addClass('active');
+        var current = storage.tracks.length, tracks = storage.tracks, found;
+        while (current--) {
+          if (tracks[current].id === storage.current) {
+            found = tracks[current];
+            break;
+          }
+        }
+
+        if (found) {
+          $('#playlist a[href="' + found + '"]').addClass('active');
           player.load(storage.current);
           player.el.one('sound:created', function() {
             player.el.trigger('loading');
