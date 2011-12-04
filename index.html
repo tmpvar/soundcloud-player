@@ -4,15 +4,15 @@
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <link href='css/core.css' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="/sm2/soundmanager2-nodebug-jsmin.js"></script>
-  <script type="text/javascript" src="/js/player.js"></script>
-  <script type="text/javascript" src="/js/info.js"></script>
-  <script type="text/javascript" src="/js/play.js"></script>
-  <script type="text/javascript" src="/js/progress.js"></script>
-  <script type="text/javascript" src="/js/loading.js"></script>
-  <script type="text/javascript" src="/js/volume.js"></script>
-  <script type="text/javascript" src="/js/waveform.js"></script>
-  <script type="text/javascript" src="/js/overlay.js"></script>
+  <script type="text/javascript" src="sm2/soundmanager2-nodebug-jsmin.js"></script>
+  <script type="text/javascript" src="js/player.js"></script>
+  <script type="text/javascript" src="js/info.js"></script>
+  <script type="text/javascript" src="js/play.js"></script>
+  <script type="text/javascript" src="js/progress.js"></script>
+  <script type="text/javascript" src="js/loading.js"></script>
+  <script type="text/javascript" src="js/volume.js"></script>
+  <script type="text/javascript" src="js/waveform.js"></script>
+  <script type="text/javascript" src="js/overlay.js"></script>
 </head>
 <body>
   <div id="player" class="ui-box"></div>
@@ -197,13 +197,14 @@
         $('#playlist ul.playlist').append('<li><a class="play-track" href="' + url + '">' + title + '</a></li>');
       };
 
-      var appendGroup = function(name, unique, id) {
+      var appendGroup = function(name, unique, id, prepend) {
         if (unique !== name) {
           name = name + ' (' + unique + ')';
         }
         // TODO: kick off resolver
         $('.no-groups').hide();
-        $('.group-list').prepend('<li class="resolving"><a href="#" class="remove">x</a> <a href="#' + id + '">' + name + '</a></li>');
+        var markup = '<li class="resolving"><a href="#" class="remove">x</a> <a href="#' + id + '">' + name + '</a></li>';
+        $('.group-list').append(markup);
       };
 
       $.each(storage.tracks, function(id, track) {
