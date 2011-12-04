@@ -76,6 +76,8 @@
       <p>
         When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. These tracks are then added into the playlist and stored in LocalStorage so it always knows what track to play!  As long as people are uploading tracks you will continue to hear new music!
       <p>
+      <p>
+        To add to the fun, your exact state is stored in localStorage. If you refresh or accidentally close the tab your next visit will land you in the exact state that you were in before you navigated away from the page!
       </div>
     </div>
   </div>
@@ -353,18 +355,15 @@
 
             for (var i=0, l=data.length; i<l; i++) {
 
+              if (!tracklist[data[i].id]) {
+                storage.tracks.push({
+                  id: data[i].id,
+                  url : data[i].permalink_url,
+                  title : data[i].title,
+                  username : data[i].user.username,
+                  group : group_id
+                });
 
-              var exists = !!tracklist[data[i].id];
-
-              storage.tracks.push({
-                id: data[i].id,
-                url : data[i].permalink_url,
-                title : data[i].title,
-                username : data[i].user.username,
-                group : group_id
-              });
-
-              if (!exists) {
                 tracklist[data[i].id] = true;
                 appendTrack(data[i].permalink_url, data[i].title);
                 if ($('#playlist .playlist li').length === 1) {
