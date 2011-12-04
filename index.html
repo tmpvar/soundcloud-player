@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>player test</title>
+  <title>Continuous Soundcloud Player</title>
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <link href='css/core.css' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -66,19 +66,35 @@
       </div>
 
       <div class="about">
+      <h1>Another soundcloud player?</h1>
       <p>
         So, I was sick of how soundcloud plays through groups and thought about how it could be fixed.
-      <p>
+      </p>
       <p>
         Currently, soundcloud plays tracks in reverse chronological order.  This is problematic because you will end up hearing
-        the same tracks over and over if you let it stream on.  This player solves that problem by playing in chronological order.
+        the same tracks over and over if you let it stream on.  This player solves that problem by playing tracks in chronological order.
+      </p>
       <p>
-      <p>
-        When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. These tracks are then added into the playlist and stored in LocalStorage so it always knows what track to play!  As long as people are uploading tracks you will continue to hear new music!
-      <p>
+        When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. As long as people are uploading tracks you will continue to hear new music!
+      </p>
       <p>
         To add to the fun, your exact state is stored in localStorage. If you refresh or accidentally close the tab your next visit will land you in the exact state that you were in before you navigated away from the page!
+      </p>
+
+      <h1>Built by</h1>
+      <p>
+        Developed by <a target="_blank" href="http://twitter.com/tmpvar">@tmpvar</a><br />
+        Designed by <a target="_blank" href="">@exploderh2</a>
+      </p>
+
+      <h1>Open source</h1>
+      <p>
+        As always, this project is open source! You can <a target="_blank" href="http://github.com/tmpvar/soundcloud-player">fork or watch it here</a>
+      </p>
+
       </div>
+
+
     </div>
   </div>
 
@@ -342,8 +358,6 @@
         storage.volume = volume;
         save();
       });
-
-
 
       var updatePlaylist = window.updatePlaylist = function(group_id) {
         if (!group_id) { return; }
