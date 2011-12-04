@@ -33,9 +33,15 @@
         <input type="text" name="group" class="group-name" value="" />
         <a href="#" class="add-group">+</a>
 
-        <p class="no-groups">
-          There are no groups here yet, please add a group by name above!
-        </p>
+        <div class="no-groups">
+          <h1>It looks like there are no groups here!</h1>
+          <p>
+            To get started, type a soundcloud group in the box and press enter or click the plus!<br />
+          <p>
+          <p>
+            Examples include: dubstep, dnb, rock, metal, etc...
+          </p>
+        </div>
 
         <ul class="group-list"></ul>
 
@@ -68,7 +74,7 @@
         the same tracks over and over if you let it stream on.  This player solves that problem by playing in chronological order.
       <p>
       <p>
-        When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. These tracks are then added into the playlist and stored in LocalStorage so it always knows what track to play!  As long as people are uploading tracks to your groups you will continue to hear more music!
+        When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. These tracks are then added into the playlist and stored in LocalStorage so it always knows what track to play!  As long as people are uploading tracks you will continue to hear new music!
       <p>
       </div>
     </div>
@@ -191,9 +197,14 @@
       var navigate = function() {
         $('#playlist .content > *').hide();
 
-        var loc = 'playlist'
+        var loc = 'playlist';
         if (window.location.hash.length > 1) {
           loc = window.location.hash.replace('#', '');
+        }
+
+        if (loc === 'playlist' && $('.group-list li').length === 0) {
+          window.location.hash = '#groups';
+          loc = 'groups';
         }
 
         $('#playlist .content .' + loc).show();
@@ -244,7 +255,6 @@
         delete storage.groups[groupId];
 
         storage.tracks = storage.tracks.filter(function(track) {
-          console.log(track.group, groupId)
           if (track.group === groupId) {
             $('#playlist .playlist a[href="' + track.url + '"]').parent().remove();
             return false;
@@ -339,6 +349,8 @@
           url : 'https://api.soundcloud.com/groups/' + group_id + '/tracks.json?client_id=' + player.soundcloud.key,
           dataType : 'json',
           success: function(data) {
+
+
             for (var i=0, l=data.length; i<l; i++) {
 
 
@@ -355,6 +367,11 @@
               if (!exists) {
                 tracklist[data[i].id] = true;
                 appendTrack(data[i].permalink_url, data[i].title);
+                if ($('#playlist .playlist li').length === 1) {
+                  $('#playlist .playlist li:first a').click();
+                  window.location.hash = "#playlist";
+                  navigate();
+                }
               }
             }
             save();

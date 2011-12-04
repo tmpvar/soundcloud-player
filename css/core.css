@@ -3,6 +3,10 @@
   margin: 40px 40px;
 }
 
+h1 {
+  font-size: 18px;
+}
+
 .container {
   position: absolute;
 
