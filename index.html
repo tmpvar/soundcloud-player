@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Continuous Soundcloud Player</title>
+  <title>Continuous SoundCloud Player</title>
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <link href='css/core.css' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -15,89 +15,90 @@
   <script type="text/javascript" src="js/overlay.js"></script>
 </head>
 <body>
-  <div id="player" class="ui-box"></div>
+  <div id="ui" class="ui-box">
+    <div id="player"></div>
 
-  <div id="playlist" class="ui-box">
-    <div id="buttons" class="ui-box">
-      <ul>
-        <li class="unselectable playlist"><a href="#playlist">playlist (<span class="count">0</span>)</a></li>
-        <li class="unselectable groups"><a href="#groups">groups (<span class="count">0</span>)</a></li>
-        <li class="unselectable help"><a href="#help">help</a></li>
-        <li class="unselectable about"><a href="#about">about</a></li>
-      </ul>
-    </div>
-    <div class="content scroller">
-      <ul class="playlist"></ul>
+    <div id="playlist">
+      <div id="buttons" class="ui-box">
+        <ul>
+          <li class="unselectable playlist"><a href="#playlist">playlist (<span class="count">0</span>)</a></li>
+          <li class="unselectable groups"><a href="#groups">groups (<span class="count">0</span>)</a></li>
+          <li class="unselectable help"><a href="#help">help</a></li>
+          <li class="unselectable about"><a href="#about">about</a></li>
+        </ul>
+      </div>
+      <div class="content scroller">
+        <ul class="playlist"></ul>
 
-      <div class="groups">
-        <input type="text" name="group" class="group-name" value="" />
-        <a href="#" class="add-group">+</a>
+        <div class="groups">
+          <input type="text" name="group" class="group-name" value="" />
+          <a href="#" class="add-group">+</a>
 
-        <div class="no-groups">
-          <h1>It looks like there are no groups here!</h1>
+          <div class="no-groups">
+            <h1>It looks like there are no groups here!</h1>
+            <p>
+              To get started, type a SoundCloud group in the box and press enter or click the plus!<br />
+            <p>
+            <p>
+              Examples include: dubstep, dnb, rock, metal, etc...
+            </p>
+          </div>
+
+          <ul class="group-list"></ul>
+
+        </div>
+
+        <div class="help">
+          <h1>Basic Usage</h1>
           <p>
-            To get started, type a soundcloud group in the box and press enter or click the plus!<br />
-          <p>
-          <p>
-            Examples include: dubstep, dnb, rock, metal, etc...
+            Using this player is simple just add some groups and you'll be off!
+          </p>
+
+          <h1>Keyboard Shortcuts</h1>
+          <ul>
+            <li>up arrow - volume up</li>
+            <li>down arrow - volume down</li>
+            <li>left arrow - previous track</li>
+            <li>right arrow - next track</li>
+            <li>space - toggle pause</li>
+            <li>] - seek 500ms into the future</li>
+            <li>[ - seek 500ms into the past</li>
           </p>
         </div>
 
-        <ul class="group-list"></ul>
-
-      </div>
-
-      <div class="help">
-        <h1>Basic Usage</h1>
+        <div class="about">
+        <h1>Another SoundCloud player?</h1>
         <p>
-          Using this player is simple just add some groups and you'll be off!
+          So, I was sick of how SoundCloud plays through groups and thought about how it could be fixed.
+        </p>
+        <p>
+          Currently, SoundCloud plays tracks in reverse chronological order.  This is problematic because you will end up hearing
+          the same tracks over and over if you let it stream on.  This player solves that problem by playing tracks in chronological order.
+        </p>
+        <p>
+          When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. As long as people are uploading tracks you will continue to hear new music!
+        </p>
+        <p>
+          To add to the fun, your exact state is stored in localStorage. If you refresh or accidentally close the tab your next visit will land you in the exact state that you were in before you navigated away from the page!
         </p>
 
-        <h1>Keyboard Shortcuts</h1>
-        <ul>
-          <li>up arrow - volume up</li>
-          <li>down arrow - volume down</li>
-          <li>left arrow - previous track</li>
-          <li>right arrow - next track</li>
-          <li>space - toggle pause</li>
-          <li>] - seek 500ms into the future</li>
-          <li>[ - seek 500ms into the past</li>
+        <h1>Built by</h1>
+        <p>
+          Developed by <a target="_blank" href="http://twitter.com/tmpvar">@tmpvar</a><br />
+          Designed by <a target="_blank" href="">@exploderh2</a>
         </p>
-      </div>
 
-      <div class="about">
-      <h1>Another soundcloud player?</h1>
-      <p>
-        So, I was sick of how soundcloud plays through groups and thought about how it could be fixed.
-      </p>
-      <p>
-        Currently, soundcloud plays tracks in reverse chronological order.  This is problematic because you will end up hearing
-        the same tracks over and over if you let it stream on.  This player solves that problem by playing tracks in chronological order.
-      </p>
-      <p>
-        When you add a group, the latest tracks will be immediately added to your playlist. After each track is played, soundcloud is queried and a new set of tracks are retrieved. As long as people are uploading tracks you will continue to hear new music!
-      </p>
-      <p>
-        To add to the fun, your exact state is stored in localStorage. If you refresh or accidentally close the tab your next visit will land you in the exact state that you were in before you navigated away from the page!
-      </p>
+        <h1>Open source</h1>
+        <p>
+          As always, this project is open source! Fork me on <a target="_blank" href="http://github.com/tmpvar/soundcloud-player">github</a>
+        </p>
 
-      <h1>Built by</h1>
-      <p>
-        Developed by <a target="_blank" href="http://twitter.com/tmpvar">@tmpvar</a><br />
-        Designed by <a target="_blank" href="">@exploderh2</a>
-      </p>
+        </div>
 
-      <h1>Open source</h1>
-      <p>
-        As always, this project is open source! You can <a target="_blank" href="http://github.com/tmpvar/soundcloud-player">fork or watch it here</a>
-      </p>
 
       </div>
-
-
     </div>
   </div>
-
 
   <script type="text/javascript">
     $(function() {
@@ -118,8 +119,8 @@
 
       var player = window.player = new Player({
         selector      : '#player',
-        width : 600,
-        height: 600,
+        width : 400,
+        height: 400,
         volume : storage.volume || 70, // in percent
         soundcloud : {
           key    : 'bc73a3deaf438619d689a1100a066ce1',
@@ -133,29 +134,29 @@
           progress : {
             background : {
               color : 'rgba(0,0,0,0.4)',
-              radius : 296
+              radius : 196
             },
             buffering : { // buffer bar
-              radius: 180,
+              radius: 100,
               color : "#b0b0b0"
             },
             playing : {
-              radius: 296, // waveform highlighter height
+              radius: 196, // waveform highlighter height
               color: "#11db11"
             },
             bufferOverlay : { // buffer bar overlay
-              radius: 180,
+              radius: 110,
               color : "rgba(1, 0, 1, 0.5)"
             },
             inner : { // innermost circle
-              radius : 175,
+              radius : 105,
               color : 'black'
             }
           },
           waveform : {
             slices : 600, // number of slices to cut the sound cloud wave form into
-            height : 125, // height of the waveform to render
-            offset : 297, // translate this far off of the center
+            height : 100, // height of the waveform to render
+            offset : 197, // translate this far off of the center
             color  : "rgba(0,0,0,1)", // color of the waveform
             background : "rgba(255,255,255,1)", // color behind the waveform
             replace : 'white', // initial color that the waveform replaces
@@ -176,11 +177,11 @@
               show : 100 // time to fade out in ms
             },
             inner: {
-              radius : 150, // inner circle radius
+              radius : 50, // inner circle radius
               color : '#000', // inner circle color
             },
             slice : {
-              radius : 300, // maximum size of the slices
+              radius : 200, // maximum size of the slices
               color : '#000', // slice color
             }
           }

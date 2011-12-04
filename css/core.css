@@ -1,11 +1,17 @@
 
-#player {
-  margin: 40px 40px;
-}
-
 h1 {
   font-size: 18px;
 }
+
+#ui {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  min-width: 913px;
+}
+
 
 .container {
   position: absolute;
@@ -21,7 +27,7 @@ h1 {
     width: 200px;
     display:none;
     cursor: default;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .container .track-info:hover {
@@ -131,20 +137,25 @@ h1 {
 }
 
 #playlist  {
-  right:170px;
-  top:40px;
-  left: 700px;
-  bottom: 35px;
-  min-width: 200px;
-  height: 600px;
+  position:absolute;
+  right:5px;
+  top:65px;
+  left: 425px;
+  bottom: 10px;
+  min-width: 482px;
   border-right: 0;
 }
 
   #playlist .content {
-    margin: 30px 30px 30px 30px;
     overflow: auto;
-    height: 543px;
-
+    position:absolute;
+    bottom:0px;
+    top: 10px;
+    right: 5px;
+    left: 0px;
+    border: 1px solid #000;
+    background: #303030;
+    opacity: 1;
   }
 
   #playlist .heading {
@@ -165,7 +176,6 @@ h1 {
   }
 
    #playlist .content .playlist {
-    background-color: #000;
     opacity: 1;
    }
 
@@ -183,15 +193,16 @@ h1 {
   }
 
 #buttons {
-  width: 125px;
-  right: -124px;
+  position:absolute;
+  z-index: 155;
+  right: 5px;
+  left: -1;
   margin:0;
   padding: 0;
   border-width: 0px;
-  height: 622px;
-  top: -1px;
+  top: -50px;
   background-color: #505050;
-  opacity: .9;
+  opacity: 1;
   font-size: 14px;
   border-left: 1px solid #202020;
 }
@@ -200,6 +211,8 @@ h1 {
     padding:0;
   }
   #buttons ul li {
+    float:left;
+    width: 100px;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -207,12 +220,11 @@ h1 {
     height: 30px;
     line-height: 33px;
     padding: 5px 0px 5px 5px;
-    margin: 0px 10px 10px 0px;
+    margin: 0px 0px 10px 10px;
 
     color: #fff;
 
     border: 1px solid #808080;
-    border-left: none;
     background-color: #4a4a4a;
     opacity: 0.4;
   }
@@ -240,17 +252,17 @@ h1 {
   outline: none;
   opacity: .6;
   position:absolute;
-  left: 30px;
-  top: 30px;
-  right: 115px;
+  left: 5px;
+  top: 10px;
+  right: 75px;
 }
 
 .groups .add-group {
   position:absolute;
   font-size: 49px;
   text-decoration: none;
-  top: 45px;
-  right: 60px;
+  top: 25px;
+  right: 20px;
   color: green;
   padding: 2px 5px 4px 5px;
 }
@@ -261,10 +273,9 @@ h1 {
 
 #playlist .groups .group-list, #playlist .groups .no-groups {
   position:absolute;
-  top: 85px;
-  left: 30px;
-  right: 30px;
-  margin-right: 30px;
+  top: 65px;
+  left: 15px;
+  right: 15px;
   padding:0;
 }
 
@@ -303,12 +314,11 @@ h1 {
 
 #playlist .content .help, #playlist .content .about {
   position:absolute;
-  top: 30px;
-  left: 30px;
-  right: 30px;
-  bottom: 30px;
-  background: #000;
+  top: 5px;
+  left: 5px;
+  right: 5px;
   padding: 5px;
+  max-width: 600px;
 }
 
   #playlist .content .about a {
