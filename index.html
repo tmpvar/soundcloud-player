@@ -272,13 +272,15 @@
         var groupId = parseInt($(this).next('a').attr('href').replace('#', ''), 10);
         delete storage.groups[groupId];
 
-        storage.tracks = storage.tracks.filter(function(track) {
-          if (track.group === groupId) {
-            $('#playlist .playlist a[href="' + track.url + '"]').parent().remove();
-            return false;
-          }
-          return true;
-        });
+        if (storage.tracks && storage.tracks.filter) {
+          storage.tracks = storage.tracks.filter(function(track) {
+            if (track.group === groupId) {
+              $('#playlist .playlist a[href="' + track.url + '"]').parent().remove();
+              return false;
+            }
+            return true;
+          });
+        }
 
         if (storage.tracks.length === 0) {
           $('.no-groups').fadeIn();
