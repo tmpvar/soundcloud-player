@@ -97,7 +97,7 @@
         width : 600,
         height: 600,
         volume : storage.volume || 70, // in percent
-        soundcloud    : {
+        soundcloud : {
           key    : 'bc73a3deaf438619d689a1100a066ce1',
         },
         soundManager  : {
@@ -306,16 +306,20 @@
 
       player.el.bind('trackinfo', function(e, data) {
         storage.current = data.id;
+        scrollToTrack();
         save();
       });
 
       player.el.bind('loaded', scrollToTrack);
-      var scrollToTrack = function(speed) {
+
+      var scrollToTrack = function() {
+        console.log('scroll')
         var current = $('#playlist .playlist a.active');
         var scroller = current.parents('.scroller');
 
         var coff = current.offset();
         var poff = current.parents('ul').offset();
+
         if (coff && poff) {
           scroller.animate({
             scrollTop : (coff.top - poff.top) - scroller.height()*.25
@@ -353,11 +357,11 @@
       };
 
       // fetch new tracks every 3 minutes
-      setTimeout(function() {
-        for (var i=0, l=storage.groups.length; i<l; i++) {
-          updatePlaylist(storage.groups[i].id);
-        }
-      }, 1000*60*3);
+      player.el.bind('finished', function() {
+        $.each(storage.groups, function(id, group) {
+          updatePlaylist(id);
+        })
+      });
 
       updatePlaylist();
 

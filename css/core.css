@@ -14,9 +14,10 @@
     text-align: center;
     z-index: 150;
     color: #d0d0d0;
-    width: 300px;
+    width: 200px;
     display:none;
     cursor: default;
+    font-size: 14px;
   }
 
   .container .track-info:hover {
@@ -126,7 +127,7 @@
 }
 
 #playlist  {
-  right:135px;
+  right:170px;
   top:40px;
   left: 700px;
   bottom: 35px;
@@ -160,7 +161,7 @@
   }
 
    #playlist .content .playlist {
-    background-color: 000;
+    background-color: #000;
     opacity: 1;
    }
 
@@ -179,7 +180,7 @@
 
 #buttons {
   width: 125px;
-  right: -97px;
+  right: -124px;
   margin:0;
   padding: 0;
   border-width: 0px;
