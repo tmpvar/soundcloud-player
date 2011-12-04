@@ -268,14 +268,17 @@
           url : "http://api.soundcloud.com/resolve.json?client_id=" + player.soundcloud.key + "&url=" + url,
           dataType : 'jsonp',
           success : function(data) {
-            storage.groups[data.id] = {
-              name : data.name,
-              unique : data.permalink
-            };
-            updatePlaylist(data.id);
-            appendGroup(data.name, data.permalink, data.id);
+            if (!storage.groups[data.id]) {
+              storage.groups[data.id] = {
+                name : data.name,
+                unique : data.permalink
+              };
+              updatePlaylist(data.id);
+              appendGroup(data.name, data.permalink, data.id);
+              save();
+            }
+
             $('.group-name').val('');
-            save();
             updateCounts();
           },
         });
