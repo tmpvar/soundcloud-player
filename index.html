@@ -78,6 +78,20 @@
   <script type="text/javascript">
     $(function() {
       var storage = window.storage = JSON.parse(localStorage.getItem('state') || '{ "tracks" : {}, "groups" : [] }');
+
+      var save = function() {
+        localStorage.setItem('state', JSON.stringify(storage));
+      };
+
+      window.reset = function() {
+        storage = {
+          groups : {},
+          tracks : {}
+        }
+        save();
+        window.location.reload();
+      };
+
       var player = window.player = new Player({
         selector      : '#player',
         width : 600,
@@ -87,7 +101,7 @@
           key    : 'bc73a3deaf438619d689a1100a066ce1',
         },
         soundManager  : {
-          url : '/sm2/swf/',
+          url : 'sm2/swf/',
           flashVersion : 9,
           useFlashBlock : false
         },
@@ -285,19 +299,6 @@
         });
       });
 
-      window.reset = function() {
-        storage = {
-          groups : {},
-          tracks : {}
-        }
-        save();
-        window.location.reload();
-      };
-
-      var save = function() {
-        localStorage.setItem('state', JSON.stringify(storage));
-      };
-
       player.el.bind('playing', function(e, data) {
         storage.position = data.value;
         save();
@@ -312,9 +313,14 @@
       var scrollToTrack = function(speed) {
         var current = $('#playlist .playlist a.active');
         var scroller = current.parents('.scroller');
-        scroller.animate({
-          scrollTop : (current.offset().top - current.parents('ul').offset().top) - scroller.height()*.25
-        }, 200);
+
+        var coff = current.offset();
+        var poff = current.parents('ul').offset();
+        if (coff && poff) {
+          scroller.animate({
+            scrollTop : (coff.top - poff.top) - scroller.height()*.25
+          }, 200);
+        }
       };
 
       player.el.bind('volume', function(e, volume) {
