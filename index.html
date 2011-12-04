@@ -221,7 +221,9 @@
         $('.group-list').append(markup);
       };
 
-      $.each(storage.tracks, function(id, track) {
+      var tracklist = {};
+      $.each(storage.tracks, function(idx, track) {
+        tracklist[track.id] = true;
         appendTrack(track.url, track.title);
       });
 
@@ -329,6 +331,8 @@
         save();
       });
 
+
+
       var updatePlaylist = window.updatePlaylist = function(group_id) {
         if (!group_id) { return; }
         $.ajax({
@@ -336,7 +340,10 @@
           dataType : 'json',
           success: function(data) {
             for (var i=0, l=data.length; i<l; i++) {
-              var exists = !!storage.tracks[data[i].id];
+
+
+              var exists = !!tracklist[data[i].id];
+
               storage.tracks.push({
                 id: data[i].id,
                 url : data[i].permalink_url,
@@ -344,7 +351,9 @@
                 username : data[i].user.username,
                 group : group_id
               });
+
               if (!exists) {
+                tracklist[data[i].id] = true;
                 appendTrack(data[i].permalink_url, data[i].title);
               }
             }
@@ -354,7 +363,6 @@
         });
       };
 
-      // fetch new tracks every 3 minutes
       player.el.bind('finished', function() {
         $.each(storage.groups, function(id, group) {
           updatePlaylist(id);
@@ -405,7 +413,7 @@
         }
 
         if (found) {
-          $('#playlist a[href="' + found + '"]').addClass('active');
+          $('#playlist a[href="' + found.url + '"]').addClass('active');
           player.load(storage.current);
           player.el.one('sound:created', function() {
             player.el.trigger('loading');
