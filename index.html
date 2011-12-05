@@ -241,6 +241,7 @@
         }
 
         $('#playlist .content .' + loc).show();
+        $('#playlist .content .' + loc).find(':input:first').focus();
         $('#playlist #buttons li.selected').removeClass('selected');
         $('#playlist #buttons li.' + loc).addClass('selected');
       };
