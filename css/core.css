@@ -225,7 +225,7 @@ h1 {
 
     border: 1px solid #808080;
     background-color: #4a4a4a;
-    opacity: 0.4;
+    opacity: 1;
   }
 
   #buttons ul li a {
@@ -320,8 +320,8 @@ h1 {
   max-width: 600px;
 }
 
-  #playlist .content .about a, #playlist .content .help a {
-    color: #24BA0C;
+  #playlist .content .about a, #playlist .content .help a, .count.active {
+    color: #2BD811;
     text-decoration:none;
   }
 

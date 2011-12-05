@@ -275,9 +275,55 @@
 
       navigate();
 
-      var updateCounts = function() {
-        $('#buttons .groups .count').text($('.group-list li').length);
-        $('#buttons .playlist .count').text($('.playlist li').length);
+      var updateCounts = function(keepcolor) {
+
+
+        setTimeout(function updateNumbers() {
+
+          var totalGroups = $('.group-list li').length;
+          var totalTracks = $('.playlist li').length;
+          var groups = parseInt($('#buttons .groups .count').text(), 10);
+          var tracks = parseInt($('#buttons .playlist .count').text(), 10);
+          var another = false;
+
+          if (groups < totalGroups) {
+            another = true;
+            $('#buttons .groups .count').text(groups+1);
+            if (!keepcolor) {
+              $('#buttons .groups .count').addClass('active');
+            }
+          } else if (groups > totalGroups) {
+            another = true;
+            $('#buttons .groups .count').text(groups-1);
+            if (!keepcolor) {
+              $('#buttons .groups .count').addClass('active');
+            }
+          } else {
+            $('#buttons .groups .count').removeClass('active');
+          }
+
+          if (tracks < totalTracks) {
+            another = true;
+            $('#buttons .playlist .count').text(tracks+1);
+            if (!keepcolor) {
+              $('#buttons .playlist .count').addClass('active');
+            }
+          } else if (tracks > totalTracks) {
+            another = true;
+            if (!keepcolor) {
+              $('#buttons .playlist .count').addClass('active');
+            }
+            $('#buttons .playlist .count').text(tracks-1);
+          } else {
+            $('#buttons .groups .count').removeClass('active');
+          }
+
+          if (another) {
+            setTimeout(updateNumbers, 0);
+          } else {
+             $('#buttons .groups .count, #buttons .playlist .count').removeClass('active');
+          }
+        }, 50);
       };
 
       updateCounts();
@@ -290,6 +336,7 @@
           storage.tracks = storage.tracks.filter(function(track) {
             if (track.group === groupId) {
               $('#playlist .playlist a[href="' + track.url + '"]').parent().remove();
+              delete tracklist[track.id];
               return false;
             }
             return true;
@@ -404,7 +451,6 @@
             if (originalLength === 0) {
 
               window.location.hash = "#playlist";
-              console.log('attempting to navigate to playlist')
               navigate();
               $('#playlist .playlist li:first a').click();
             }
