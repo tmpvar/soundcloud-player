@@ -3,16 +3,7 @@
   <title>Continuous SoundCloud Player</title>
   <link href='http://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
   <link href='css/core.css' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="sm2/soundmanager2-nodebug-jsmin.js"></script>
-  <script type="text/javascript" src="js/player.js"></script>
-  <script type="text/javascript" src="js/info.js"></script>
-  <script type="text/javascript" src="js/play.js"></script>
-  <script type="text/javascript" src="js/progress.js"></script>
-  <script type="text/javascript" src="js/loading.js"></script>
-  <script type="text/javascript" src="js/volume.js"></script>
-  <script type="text/javascript" src="js/waveform.js"></script>
-  <script type="text/javascript" src="js/overlay.js"></script>
+  <script type="text/javascript" src="js/build.min.js"></script>
 </head>
 <body>
   <div id="ui" class="ui-box">
@@ -28,9 +19,9 @@
         </ul>
       </div>
       <div class="content scroller">
-        <ul class="playlist"></ul>
+        <ul class="playlist page"></ul>
 
-        <div class="groups">
+        <div class="groups page">
           <input type="text" name="group" class="group-name" value="" />
           <a href="#" class="add-group">+</a>
 
@@ -57,7 +48,7 @@
 
         </div>
 
-        <div class="help">
+        <div class="help page">
           <h1>Basic Usage</h1>
           <p>
             Using this player is simple just add some groups and you'll be off!
@@ -72,6 +63,7 @@
             <li>space - toggle pause</li>
             <li>] - seek 500ms into the future</li>
             <li>[ - seek 500ms into the past</li>
+            <li>? - show this screen</li>
           </p>
 
           <h1>If things go horribly wrong</h1>
@@ -80,7 +72,7 @@
           </p>
         </div>
 
-        <div class="about">
+        <div class="about page">
         <h1>Another SoundCloud player?</h1>
         <p>
           So, I was sick of how SoundCloud plays through groups and thought about how it could be fixed.
@@ -104,21 +96,20 @@
 
         <h1>Open source</h1>
         <p>
-          As always, this project is open source! Fork me on <a target="_blank" href="http://github.com/tmpvar/soundcloud-player">github</a>
+          As always, this project is open source! <a target="_blank" href="http://github.com/tmpvar/soundcloud-player">Fork me</a> on github!
         </p>
-
         </div>
-
-
       </div>
     </div>
   </div>
 
   <script type="text/javascript">
     $(function() {
+      window.useHTML5Audio = true;
       var storage = window.storage = JSON.parse(localStorage.getItem('state') || '{ "tracks" : [], "groups" : [] }');
 
       var save = function() {
+        localStorage.removeItem('state');
         localStorage.setItem('state', JSON.stringify(storage));
       };
 
@@ -481,6 +472,14 @@
           case 219: // left bracket (jump backward)
             player.progress(player.progress() - 500)
           break;
+
+          case 191: // '/' for showing the help screen
+            if (e.shiftKey) {
+              window.location.hash = "#help";
+            }
+
+          break;
+
         }
       });
 

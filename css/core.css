@@ -10,7 +10,11 @@ h1 {
   left: 10px;
   right: 10px;
   min-width: 913px;
-  min-height: 420px;
+  min-height: 400px;
+}
+
+.page {
+  display: none;
 }
 
 
@@ -121,20 +125,22 @@ h1 {
 
 .scroller::-webkit-scrollbar {
   height: 16px;
-   -webkit-border-radius: 1ex;
+   -webkit-border-radius: 2px;
   opacity: 0.7;
 }
 
 .scroller::-webkit-scrollbar-track {
 
   height: 16px;
-  background:#1a1a1a;
-  border-top: 2px solid #1a1a1a;
+  background:#3a3a3a;
 }
 
+.scroller::-webkit-scrollbar-corner {
+  background: #2a2a2a;
+}
 .scroller::-webkit-scrollbar-thumb {
   border-top: 1px solid #blue;
-  background: #101010;
+  background: #202020;
   -webkit-border-radius: 2px;
 }
 
