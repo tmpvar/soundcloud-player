@@ -59,7 +59,10 @@
     },
     bind : function() {
       var that = this;
+      this.isLoading = false;
       this.player.el.bind('loading', function() {
+        that.isLoading = true;
+
         that.el.stop(false, true);
         clearInterval(that.stepper);
         that.stepper = setInterval(function() {
@@ -70,11 +73,15 @@
       });
 
       this.player.el.bind('loaded', function() {
+        this.loading = false;
         clearInterval(that.stepper);
         that.el.fadeOut(that.theme.fade.hide);
       });
     },
     tick : function() {
+      if (!this.isLoading) {
+        return;
+      }
       var width = this.player.width;
       var height = this.player.height;
       var centerX = width/2;
@@ -106,14 +113,15 @@
             slice.height+=slice.direction;
           }
 
-          if (slice.height < 0) {
+          if (!slice.height || slice.height < 0) {
             slice.height = 0;
           }
+
           ctx.save()
             ctx.beginPath();
             ctx.translate(centerX, centerY);
             ctx.rotate(((current*((360/this.theme.slices)/360) * (Math.PI*2)) -Math.PI*.5));
-            ctx.lineTo(0, slice.height);
+            ctx.lineTo(0, slice.height || 0);
             ctx.arc(0,0, slice.height, -Math.PI*.5, ((((360/this.theme.slices)/360) * Math.PI*2) -Math.PI*.5) + .1, false);
             ctx.lineTo(0, this.theme.inner.radius);
             ctx.closePath();

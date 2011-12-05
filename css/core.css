@@ -185,7 +185,6 @@ h1 {
     font-size: 14px;
     color: #fff;
     text-decoration:none;
-    text-shadow:2px 2px 1px #101010;
   }
 
   .playlist .active {
@@ -321,7 +320,7 @@ h1 {
   max-width: 600px;
 }
 
-  #playlist .content .about a {
+  #playlist .content .about a, #playlist .content .help a {
     color: #24BA0C;
     text-decoration:none;
   }

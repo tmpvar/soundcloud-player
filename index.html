@@ -64,6 +64,11 @@
             <li>] - seek 500ms into the future</li>
             <li>[ - seek 500ms into the past</li>
           </p>
+
+          <h1>If things go horribly wrong</h1>
+          <p>
+            Click <a class="reset" href="#">here</a> and everything will be reset.
+          </p>
         </div>
 
         <div class="about">
@@ -116,6 +121,12 @@
         save();
         window.location.reload();
       };
+
+      $('.reset').click(function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        reset();
+      })
 
       var player = window.player = new Player({
         selector      : '#player',
@@ -188,9 +199,12 @@
         }
       });
 
-      $('#playlist .playlist a.play-track').live('click', function() {
-        $('#playlist .active').removeClass('active')
-        $(this).addClass('active')
+      $('#playlist .playlist a.play-track').live('click', function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        $('#playlist .active').removeClass('active');
+        $(this).addClass('active');
         player.load($(this).attr('href'), function() {
           $('.play').trigger('mousedown');
         });
@@ -367,8 +381,7 @@
           url : 'https://api.soundcloud.com/groups/' + group_id + '/tracks.json?client_id=' + player.soundcloud.key,
           dataType : 'json',
           success: function(data) {
-
-
+            var originalLength = $('#playlist .playlist li').length;
             for (var i=0, l=data.length; i<l; i++) {
 
               if (!tracklist[data[i].id]) {
@@ -381,16 +394,20 @@
                 });
 
                 tracklist[data[i].id] = true;
-                appendTrack(data[i].permalink_url, data[i].title);
-                if ($('#playlist .playlist li').length === 1) {
-                  $('#playlist .playlist li:first a').click();
-                  window.location.hash = "#playlist";
-                  navigate();
-                }
+                appendTrack(data[i].permalink_url, data[i].title)
               }
             }
+
             save();
             updateCounts();
+
+            if (originalLength === 0) {
+
+              window.location.hash = "#playlist";
+              console.log('attempting to navigate to playlist')
+              navigate();
+              $('#playlist .playlist li:first a').click();
+            }
           }
         });
       };
