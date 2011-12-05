@@ -13,7 +13,7 @@
       this.el.addClass('unselectable');
       this.el.append('<img class="unselectable play" src="img/play_balanced.png"/>');
       this.el.append('<img class="unselectable pause" src="img/pause.png" />');
-      $('img', this.el).hide();
+      $('img', this.el).css('opacity', 0.7).hide();
       this.player.el.append(this.el);
       this.el.hide();
     },
@@ -88,6 +88,16 @@
         }
         return false;
       });
+
+      $(this.el).mouseover(function() {
+       $('img', that.el).animate({
+          opacity: 1
+        }, 200);
+      }).mouseout(function() {
+        $('img', that.el).animate({
+          opacity: 0.7
+        }, 200);
+      })
     }
   };
 
