@@ -55,6 +55,10 @@
         that.update(that.player.sound.volume);
       });
 
+      this.player.el.bind('loading', function() {
+        that.el.css('display', 'none');
+      });
+
 
       var move = function(e) {
         var

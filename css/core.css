@@ -106,8 +106,8 @@ h1 {
   border: 1px solid #606060;/*#5A6D7D;*/
   box-shadow:2px 2px 5px #000000;
   position:absolute;
-  background-color: #202020;
-  opacity: .7;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAHElEQVQIHWN0cHD4zwAFjIyMYNa/f/8YYGwYDQB7jgTEUlYfBwAAAABJRU5ErkJggg==') #202020;
+  opacity: 1;
 }
 
 .ui-box .heading {
@@ -332,7 +332,7 @@ h1 {
   }
 
 body {
-  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAHElEQVQIHWN0cHD4zwAFjIyMYNa/f/8YYGwYDQB7jgTEUlYfBwAAAABJRU5ErkJggg==') #404040;
+  background: #303030;
   padding: 0;
   margin: 0;
   overflow:hidden;
