@@ -102,6 +102,7 @@
         if (that.sound) {
           that.sound.destruct();
         }
+
         that.sound = soundManager.createSound({
           id : 'soundcloud-sound',
           url: o.stream_url + '?client_id=' + that.soundcloud.key,

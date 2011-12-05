@@ -406,6 +406,7 @@
 
       player.el.bind('volume', function(e, volume) {
         storage.volume = volume;
+        player.volume = volume;
         save();
       });
 
