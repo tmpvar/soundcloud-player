@@ -315,8 +315,6 @@
         appendGroup(group.name, group.unique, id)
       });
 
-      navigate();
-
       $('.group-list li a.remove').live('click', function() {
         var groupId = parseInt($(this).next('a').attr('href').replace('#', ''), 10);
         delete storage.groups[groupId];
@@ -486,6 +484,14 @@
           break;
         }
       });
+
+      var urlHash = '';
+      setInterval(function() {
+        if (urlHash !== window.location.hash) {
+          urlHash = window.location.hash;
+          navigate();
+        }
+      }, 50);
 
       $(window).load(function() {
         var current = storage.tracks.length, tracks = storage.tracks, found;
