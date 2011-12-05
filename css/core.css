@@ -320,9 +320,15 @@ h1 {
   max-width: 600px;
 }
 
-  #playlist .content .about a, #playlist .content .help a, .count.active {
+  #playlist .content .about a, #playlist .content .help a, .count.active, .groups .no-groups a {
     color: #2BD811;
     text-decoration:none;
+  }
+
+  .groups .no-groups img {
+    border: 1px solid #a0a0a0;
+    padding: 2px;
+    background-color: #000;
   }
 
 body {

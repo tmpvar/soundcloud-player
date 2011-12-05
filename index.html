@@ -42,6 +42,15 @@
             <p>
               Examples include: dubstep, dnb, rock, metal, etc...
             </p>
+            <h1>How do I find more groups?</h1>
+            <p>
+              Head over to <a target="_blank" href="http://soundcloud.com/groups">SoundCloud groups</a> and navigate to a group that interests you.
+            </p>
+            <p><img src="img/finding-groups.png" /></p>
+            <p>
+              Now enter the last part of the url (highlighted in red in the image).
+            </p>
+            <p><img src="img/enter-group-name.png" /></p>
           </div>
 
           <ul class="group-list"></ul>
@@ -273,6 +282,10 @@
       });
 
       $.each(storage.groups, function(id, group) {
+        if (!group || !group.name) {
+          reset();
+          return false;
+        }
         appendGroup(group.name, group.unique, id)
       });
 
@@ -531,6 +544,16 @@
         }
       });
     });
+  </script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-633948-2']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
   </script>
 </body>
 </html>
