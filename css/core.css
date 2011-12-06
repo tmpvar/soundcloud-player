@@ -161,9 +161,12 @@ h1 {
     top: 10px;
     right: 5px;
     left: 0px;
-    border: 1px solid #000;
+    border: 1px solid #606060;
     background: #303030;
     opacity: 1;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
   }
 
   #playlist .heading {
@@ -203,7 +206,7 @@ h1 {
   position:absolute;
   z-index: 155;
   right: 5px;
-  left: -1;
+  left: 0px;
   margin:0;
   padding: 0;
   border-width: 0px;
@@ -211,7 +214,13 @@ h1 {
   background-color: #505050;
   opacity: 1;
   font-size: 14px;
-  border-left: 1px solid #202020;
+  box-shadow:0px 2px 5px #000000;
+  -webkit-border-top-left-radius: 2px;
+  -webkit-border-top-right-radius: 2px;
+  -moz-border-radius-topleft: 2px;
+  -moz-border-radius-topright: 2px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
 }
   #buttons ul {
     margin-top: 10px;
@@ -337,6 +346,7 @@ h1 {
     border: 1px solid #a0a0a0;
     padding: 2px;
     background-color: #000;
+    width:450px;
   }
 
 body {
