@@ -313,6 +313,10 @@
         appendGroup(group.name, group.unique, id)
       });
 
+      if ($('.group-list li').length === 0) {
+        player.el.trigger('loading');
+      }
+
       $('.group-list li a.remove').live('click', function() {
         var groupId = parseInt($(this).next('a').attr('href').replace('#', ''), 10);
         delete storage.groups[groupId];
