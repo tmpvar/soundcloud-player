@@ -270,6 +270,8 @@
 
       var appendGroupTimer;
       var updateGroupCount = function() {
+        $('#buttons .groups .count').text($('.group-list li').length);
+        $('#buttons .groups .count').addClass('active');
         clearTimeout(appendGroupTimer);
         appendGroupTimer = setTimeout(function() {
           $('#buttons .groups .count').removeClass('active');
@@ -284,9 +286,6 @@
         $('.no-groups').hide();
         var markup = '<li class="resolving"><a href="#" class="remove">x</a> <a href="#' + id + '">' + name + '</a></li>';
         $('.group-list').append(markup);
-
-        $('#buttons .groups .count').text($('.group-list li').length);
-        $('#buttons .groups .count').addClass('active');
 
         updateGroupCount();
       };
