@@ -14,7 +14,7 @@
         } else {
           player.sound.play();
         }
-        player.sound.paused = false;
+        player.paused = false;
         player.el.trigger('play');
       }
       return false;
@@ -24,9 +24,8 @@
       if (e) {
         e.stopImmediatePropagation();
       }
-
+      player.paused = true;
       if (player.sound) {
-        player.sound.paused = true;
         player.sound.pause();
         player.el.trigger('pause');
       }
@@ -56,7 +55,7 @@
       });
 
       player.el.bind('loading', function() {
-        paused = false;
+        that.player.paused = false;
         $('.pause', that.el).hide();
         $('.play', that.el).hide();
         that.el.fadeIn(player.fadeInSpeed);
