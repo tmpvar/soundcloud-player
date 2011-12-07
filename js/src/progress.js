@@ -57,16 +57,26 @@
       });
 
       var scrub = function(e) {
-        var offset = $(e.target).offset();
+        var offset = $(that.player.el).offset();
 
+        var centerY = (that.player.center + window.scrollY) + offset.top;
+        var centerX = (that.player.center + window.scrollX) + offset.left;
 
-        var calculatedRadians = -Math.atan2(e.clientY - (that.player.center - window.scrollY) - offset.top, e.clientX - (that.player.center - window.scrollX) - offset.left);
-        var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
-        var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
-        var percent = (360 - correctedDegrees)/360;
+        var diffY = e.clientY - centerY;
+        var diffX = e.clientX - centerX;
+        var distance = Math.sqrt((diffY*diffY) + (diffX*diffX));
 
-        if (that.player.sound) {
-          that.player.sound.setPosition(parseInt(that.player.sound.meta.duration*percent, 10));
+        if (distance > that.theme.buffering.radius &&
+            distance < that.theme.background.radius)
+        {
+          var calculatedRadians = -Math.atan2(diffY, diffX);
+          var initialDegrees = (calculatedRadians * (180/Math.PI)) - 90;
+          var correctedDegrees = (initialDegrees < 0) ? initialDegrees + 360 : initialDegrees;
+          var percent = (360 - correctedDegrees)/360;
+
+          if (that.player.sound) {
+            that.player.sound.setPosition(parseInt(that.player.sound.meta.duration*percent, 10));
+          }
         }
       };
 

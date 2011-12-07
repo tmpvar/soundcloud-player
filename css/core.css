@@ -61,9 +61,11 @@ h1 {
 
     .container .controls img{
       position: absolute;
-      z-index : 120;
-      left: 0px;
-      top: 0px;
+      z-index : 155;
+      left: 42%;
+      top: 43%;
+      width: 15%;
+      height: 15%;
       cursor: pointer;
     }
 
