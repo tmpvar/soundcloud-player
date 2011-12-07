@@ -289,7 +289,7 @@ $(function() {
       break;
 
       case 32:
-        player.el.find('.controls .pause:visible, .controls .play:visible').mousedown()
+        player.el.find('.controls .pause:visible, .controls .play:visible').click()
       break;
 
       case 40: // down arrow (volume down)
