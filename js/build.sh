@@ -1,1 +1,11 @@
-cat jquery.min.js sm2/soundmanager2-nodebug-jsmin.js player.js info.js play.js progress.js loading.js volume.js waveform.js overlay.js > build.js
+cat lib/jquery.min.js \
+lib/sm2/soundmanager2-nodebug-jsmin.js \
+src/player.js \
+src/info.js \
+src/play.js \
+src/progress.js \
+src/loading.js \
+src/volume.js \
+src/waveform.js \
+src/overlay.js \
+> build.js
