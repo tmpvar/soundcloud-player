@@ -819,8 +819,8 @@ try{c.o._externalInterfaceTest(false),ua(true,c.flashPollingInterval||(c.useHigh
       if (!$(this).is('.animating')) {
         var originalHeight = $(this).height();
         $(this).addClass('animating');
-        $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 1 }, 200, 'linear', function() {
-          $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.9 }, 200, 'linear', function() {
+        $(this).animate({ 'margin-top' : '-=15', height: '+=15', opacity: 1 }, 150, 'linear', function() {
+          $(this).animate({ 'margin-top' : '+=15', height: '-=15', opacity: 0.9 }, 150, 'linear', function() {
             $(this).removeClass('animating');
             $(this).height(originalHeight);
           });
