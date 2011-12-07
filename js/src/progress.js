@@ -85,7 +85,7 @@
         that.player.el.bind('mousemove', scrub);
       });
 
-      this.player.el.bind('mouseup', function() {
+      $(document).bind('mouseup', function() {
         that.player.el.unbind('mousemove', scrub);
       });
     },
