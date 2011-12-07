@@ -4,18 +4,17 @@
     this.player = player;
 
     player.play = function(e) {
-      console.log('here');
       if (e) {
         e.stopImmediatePropagation();
       }
 
       if (player.sound) {
-        if (player.paused) {
+        if (player.sound.paused) {
           player.sound.resume();
         } else {
           player.sound.play();
         }
-        player.paused = false;
+        player.sound.paused = false;
         player.el.trigger('play');
       }
       return false;
@@ -27,7 +26,7 @@
       }
 
       if (player.sound) {
-        player.paused = true;
+        player.sound.paused = true;
         player.sound.pause();
         player.el.trigger('pause');
       }
@@ -45,20 +44,13 @@
       this.el.addClass('unselectable');
       this.el.append('<img class="unselectable play" src="img/play_balanced.png"/>');
       this.el.append('<img class="unselectable pause" src="img/pause.png" />');
-      $('img', this.el).css('opacity', 0.7).hide();
+      $('img', this.el).hide();
       this.player.el.append(this.el);
       this.el.hide();
-    },
-    position: function() {
-      var
-      center = this.player.center,
-      radius = this.player.radius,
-      ratio = .20;
     },
     bind : function() {
       var that = this, paused = false, player = that.player;
       player.el.bind('loaded', function() {
-        that.position();
         $('.play', that.el).show();
         that.el.fadeIn(player.fadeInSpeed);
       });
@@ -88,16 +80,6 @@
       });
 
       $('.play', this.el).bind('click', this.player.play);
-
-      $(this.el).mouseover(function() {
-       $('img', that.el).animate({
-          opacity: 1
-        }, 200);
-      }).mouseout(function() {
-        $('img', that.el).animate({
-          opacity: 0.7
-        }, 200);
-      })
     }
   };
 

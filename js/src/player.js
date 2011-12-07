@@ -1,7 +1,77 @@
 ;(function(window) {
 
   function Player(options) {
-    $.extend(this, options);
+    $.extend(this, {
+      selector      : '#player',
+      width : 400,
+      height: 400,
+      volume : storage.volume || 70, // in percent
+      soundcloud : {
+        key    : 'bc73a3deaf438619d689a1100a066ce1',
+      },
+      soundManager  : {
+        url : 'js/lib/sm2/swf/',
+        flashVersion : 9,
+        useFlashBlock : false
+      },
+      theme : {
+        progress : {
+          background : {
+            color : 'rgba(0,0,0,1)',
+            radius : 196
+          },
+          buffering : { // buffer bar
+            radius: 110,
+            color : "#b0b0b0"
+          },
+          playing : {
+            radius: 196, // waveform highlighter height
+            color: "#11db11"
+          },
+          bufferOverlay : { // buffer bar overlay
+            radius: 110,
+            color : "rgba(1, 0, 1, 0.5)"
+          },
+          inner : { // innermost circle
+            radius : 105,
+            color : 'black'
+          }
+        },
+        waveform : {
+          slices : 600, // number of slices to cut the sound cloud wave form into
+          height : 100, // height of the waveform to render
+          offset : 197, // translate this far off of the center
+          color  : "rgba(0,0,0,1)", // color of the waveform
+          background : "rgba(255,255,255,1)", // color behind the waveform
+          replace : 'white', // initial color that the waveform replaces
+          compositeOperations : {
+            replace : 'source-over', // bottom of the stack
+            background : 'source-out', // replace the waveform
+            slice : 'destination-out',
+          },
+          outerWidth: 5 // skew the waveform slice so it is bigger on the outside of the circle
+        },
+        loading : {
+
+          slices: 50, // total number of slices
+          speed : 4, // fall speed of slices
+          rate : 16, // time between slice changes
+          fade : {
+            hide : 700, // time to fade in in ms
+            show : 100 // time to fade out in ms
+          },
+          inner: {
+            radius : 50, // inner circle radius
+            color : '#000', // inner circle color
+          },
+          slice : {
+            radius : 200, // maximum size of the slices
+            color : '#000', // slice color
+          }
+        }
+      }
+    }, options);
+
     this.controls = {};
     this.layers = [];
     this.render();

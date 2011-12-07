@@ -59,7 +59,7 @@ h1 {
     display:none;
   }
 
-    .container .controls img{
+    .container .controls img {
       position: absolute;
       z-index : 155;
       left: 42%;
@@ -67,10 +67,20 @@ h1 {
       width: 15%;
       height: 15%;
       cursor: pointer;
+      opacity: 0.6;
+      -webkit-transition: opacity 0.1s ease-in-out;
+      -moz-transition: opacity 0.1s ease-in-out;
+      -o-transition: opacity 0.1s ease-in-out;
+      -ms-transition: opacity 0.1s ease-in-out;
+      transition: opacity 0.1s ease-in-out;
+    }
+
+    .container .controls img:hover {
+      opacity: 1;
     }
 
     .container .controls img.pause {
-      margin-left: 2px;
+      margin-left: 1%;
     }
 
   .container .volume {
