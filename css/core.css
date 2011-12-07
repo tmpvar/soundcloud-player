@@ -33,6 +33,9 @@ h1 {
     display:none;
     cursor: default;
     font-size: 12px;
+    left: 35%;
+    top: 30%;
+    width: 30%;
   }
 
   .container .track-info:hover {

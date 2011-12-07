@@ -57,6 +57,10 @@
       });
 
       var scrub = function(e) {
+        if (!that.mousedown) {
+          return;
+        }
+
         var offset = $(that.player.el).offset();
 
         var centerY = (that.player.center + window.scrollY) + offset.top;
@@ -81,11 +85,13 @@
       };
 
       this.player.el.bind('mousedown', function(e) {
+        that.mousedown = true;
         scrub(e);
         that.player.el.bind('mousemove', scrub);
       });
 
       $(document).bind('mouseup', function() {
+        that.mousedown = false;
         that.player.el.unbind('mousemove', scrub);
       });
     },

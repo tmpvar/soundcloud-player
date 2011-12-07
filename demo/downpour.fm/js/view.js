@@ -30,9 +30,7 @@ $(function() {
 
     $('#playlist .active').removeClass('active');
     $(this).addClass('active');
-    player.load($(this).attr('href'), function() {
-      $('.play').trigger('mousedown');
-    });
+    player.load($(this).attr('href'), player.play);
     return false;
   });
 
@@ -348,7 +346,7 @@ $(function() {
             player.el.unbind('buffering', waitForBuffer);
             player.sound.setPosition(storage.position);
             player.el.trigger('loaded');
-            $('.play').mousedown();
+            player.play();
           }
         });
       });
