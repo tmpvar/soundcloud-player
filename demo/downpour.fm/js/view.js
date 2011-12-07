@@ -326,6 +326,10 @@ $(function() {
     }
   }, 50);
 
+  if (window.location.toString().indexOf('developer=true') > -1) {
+    $('.developer').fadeIn();
+  }
+
   $(window).load(function() {
     var current = storage.tracks.length, tracks = storage.tracks, found;
     while (current--) {
